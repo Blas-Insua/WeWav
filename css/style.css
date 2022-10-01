@@ -1,0 +1,167 @@
+body {
+	background-image: url(../images/background.png) ;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	background-attachment: fixed;
+	box-sizing: border-box;
+	margin: 0px;
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+
+header, #loginYellowBlock {
+    background-color: rgba(242, 230, 33, 0.95);
+    font-size: x-large;
+}
+
+.captcha {
+	resize: none;	
+	text-decoration: line-through;
+	font-family: Segoe UI, Frutiger, Helvetica, Arial, sans-serif;
+	font-size: x-large;
+	background-color: rgb(242, 230, 33);
+	color: rgb(22, 22, 22);
+	margin: auto;
+	padding: 5px 15px 5px 15px;
+	border-radius: 10px;
+	user-select: none;
+}
+
+.reCaptcha {
+	background-color: rgb(242, 230, 33);
+	border-color: transparent;
+}
+
+.yellowBox {
+	background-color: rgb(242, 230, 33);
+	border-color: transparent;
+}
+
+button {
+	margin: 2px;
+}
+
+ul {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:link {
+	color: aliceblue;
+}
+
+#upload {
+	color:rgb(33, 33, 33);
+	font-size: large;
+	padding: 5px;
+	border-radius: 3px;
+}
+
+.userCard {
+	box-shadow: inset 0 0 2000px rgba(0, 0, 0, 0.973);
+	border-radius: 15px;
+}
+
+nav div a.navRoute {
+	color: rgb(33, 33, 33);
+	margin: 5px;
+	padding: 2px 10px 3px 10px;
+	border-radius: 3px;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2);
+}
+
+a.navRoute:hover, a#upload.navRoute:hover {
+	background-color: rgb(33, 33, 33);
+	color: aliceblue;
+}
+
+a:visited {
+	color: aliceblue;
+}
+
+.textwhite { 
+	color: aliceblue;
+}
+
+.userLogo {
+	background-color: rgba(255, 255, 255, 0.062);
+}
+
+
+
+table#userUploadedTracks, table#userUploadedTracks th, table#userUploadedTracks td {
+	border: 1px solid;
+}
+
+header span {
+	margin: 5px 0px;
+	padding: 0px 20px;
+}
+
+.deleteFile {
+	color:rgba(255, 255, 255, 0) ;
+	background-image: url("../images/deleteButton.svg");
+	background-position: center;
+    background-size: 30%;
+    background-repeat: no-repeat;
+}
+
+.editFile {
+	color:rgba(255, 255, 255, 0) ;
+	background-image: url("../images/buttonEdit.svg");
+	background-position: center;
+    background-size: 42%;
+    background-repeat: no-repeat;
+}
+
+footer {
+	background-color: rgba(242, 230, 33, 0.897);
+}
+
+footer p {
+	text-shadow: 0px 0px 5px rgba(0, 0, 0, 33%);
+	margin: 5px;
+}
+
+#followingPrevious {	
+	color:rgba(255, 255, 255, 0) ;
+	background-image: url("../images/followingPreviousBtn.svg");
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+#followingNext {	
+	color:rgba(255, 255, 255, 0) ;
+	background-image: url("../images/followingNextBtn.svg");
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+
+
+.file {
+	background-color: aliceblue;
+	color: black;
+	margin: auto;
+	border-radius: 10px 10px 20px 20px;
+}
+
+.file img {
+	margin: auto;
+	height: 95%;
+	width: 95%;
+	padding-top: 10px;
+}
+
+.file p {
+	margin: auto;
+}
+
+
+
