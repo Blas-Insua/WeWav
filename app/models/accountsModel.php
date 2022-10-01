@@ -25,7 +25,11 @@
                                         WHERE a.name = ?");
             $query->execute([$profile]);
             $account = $query->fetchAll(PDO::FETCH_OBJ); 
-            
+
+            require_once './app/models/tracksModel.php';
+            $tracksModel = new tracksModel();
+            $totalTracks = count($tracksModel->getTracksByAcc($profile));
+
             return $account;
         }
 
@@ -65,6 +69,27 @@
                 header("location:home");
             }
     
+        }
+
+        public function loginSubmit() {
+            if(!empty($_POST['name'])&& !empty($_POST['password'])){
+                $name = $_POST['name'];
+                $password = $_POST['password'];
+         
+                //Obtengo el usuario de la base de datos
+                $query = $this->db->prepare('SELECT * FROM accounts WHERE name = ?');
+                $query->execute([$name]);
+                $user = $query->fetch(PDO::FETCH_OBJ);
+         
+                //Si el usuario existe y las contraseñas coinciden
+                if($user && password_verify($password,($user->password))){
+                    session_start();
+                    $_SESSION["loggedin"] = true;
+                    $_SESSION["name"] = $user->name;
+                    $_SESSION["rol"] = $user->rol_id;
+                    header("location:tracks");
+                }
+            }         
         }
     
     }

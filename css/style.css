@@ -146,10 +146,13 @@ footer p {
 
 
 .file {
+	max-height: min-content;
+    align-items: flex-end;
 	background-color: aliceblue;
 	color: black;
 	margin: auto;
 	border-radius: 10px 10px 20px 20px;
+	width: 80%;
 }
 
 .file img {

@@ -8,9 +8,12 @@
             $this->smarty = new Smarty();
         }
     
-        function showTracks($tracks) {
-            require_once 'templates/header.php';
+        public function showTracks($tracks) {
             $this->smarty->assign('tracks', $tracks);    
             $this->smarty->display('tracks.tpl');
+        }
+
+        public function showUploadSection() {
+            $this->smarty->display('upload.tpl');
         }
     }

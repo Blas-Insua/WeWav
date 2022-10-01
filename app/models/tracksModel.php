@@ -28,4 +28,13 @@
             
             return $tracks;
         }
+
+        public function create($profile) {
+            $query = $this->db->prepare("SELECT t.id, t.name, t.user_id, a.name as userName, t.genre_id, g.genre, date, folder_id
+                        FROM tracks t
+                        INNER JOIN accounts a ON a.id = t.user_id
+                        INNER JOIN genres g ON g.id = t.genre_id
+                        WHERE a.name = ?");
+            $query->execute([$profile]);
+        }
     }
