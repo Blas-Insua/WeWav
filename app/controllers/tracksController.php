@@ -15,4 +15,8 @@ class tracksController {
         $tracks = $this->model->getTracks();
         $this->view->showTracks($tracks);
     }
+
+    public function printUploadSection() {
+        $this->view->showUploadSection();
+    }
 }

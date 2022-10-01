@@ -22,21 +22,21 @@ switch ($params[0]) {
         $accountsController->printSignupForm();
         break;     
     case 'login':
-        showLoginForm();
+        $accountsController->printLoginForm();
         break;        
     case 'signupSubmit':
         $accountsController->signupSubmit();
         break;
     case 'loginSubmit':
-        login();
+        $accountsController->loginSubmit();
         break;
     case 'logout':
         logout();
-    case 'home':
+    case 'tracks':
         $tracksController->printTracks();
         break;
     case 'upload':
-        showUploadSection();
+        $tracksController->printUploadSection();
         break;
     case 'uploadFile':
         uploadFile();

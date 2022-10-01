@@ -9,6 +9,7 @@ class accountsController {
     public function __construct() {
         $this->model = new accountsModel();
     }
+
     public function printSignupForm() {
         require_once './app/models/countriesModel.php';
         $countriesModel = new countriesModel();
@@ -18,12 +19,21 @@ class accountsController {
         $genresModel = new genresModel();
         $genres = $genresModel->getGenres();
         
-        $this->view = new signupFormView();
+        $this->view = new accountsView();
         $this->view->showSignupForm($countries, $genres);
-    }
+    }    
 
     public function signupSubmit() {
         $this->model->signupSubmit();
+    }
+
+    public function printLoginForm() {        
+        $this->view = new accountsView();
+        $this->view->showLoginForm();
+    }
+
+    public function loginSubmit() {
+        $this->model->loginSubmit();
     }
 
     public function About($profile) {
