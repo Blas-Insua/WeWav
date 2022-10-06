@@ -7,7 +7,7 @@
         }
 
         public function getGenres() {
-            $query = $this->db->prepare("SELECT * FROM genres");
+            $query = $this->db->prepare("SELECT * FROM `genres` ORDER BY `genre`");
             $query->execute();
             $genres = $query->fetchAll(PDO::FETCH_OBJ); 
             

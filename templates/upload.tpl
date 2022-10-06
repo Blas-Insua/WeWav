@@ -1,22 +1,21 @@
-{include file="header.tpl"}
+<form id="uploadFileForm" action="uploadFile" method="post" enctype="multipart/form-data">
+    <fieldset>
+        <legend>File Data</legend>
+            <input type="file" name="file"></label><br>
 
-<div id="uploadDIV">    
-    <h1>Upload</h1>
-    <form id="uploadFileForm" action="uploadFile" method="post" enctype="multipart/form-data">
-        <fieldset id="uploadFileFormDIV">
-            <legend>File Data</legend>
-                <input type="file" name=""></label><br>
+        <label>Name of track:</label>
+            <input type="text" id="uploadFileName" name="uploadFileName" required><br>
 
-            <label>Name of track:</label>
-                <input type="text" id="uploadFileName" name="uploadFileName" required><br>
+        <label>Genre:</label>
+            <select id="uploadFileGenre" name="uploadFileGenre" required >
+                {foreach from=$genres item=$genre}
+                    <option value="{$genre->id}" {if $genre->id=="0"}selected{/if}>{$genre->genre}</option>
+                {/foreach}
+            </select><br>
 
-            <label>Genre:</label>
-                <input type="text" id="uploadFileGenre" name="uploadFileGenre" required><br>
+        <label>Date of creation:</label>
+            <input type="date" id="uploadFileDate" name="uploadFileDate" required><br>
 
-            <label>Date of creation:</label>
-                <input type="date" id="uploadFileDate" name="uploadFileDate" required><br>
-
-            <button class="yellowBox" id="uploadButton">Upload</button>
-        </fieldset>
-    </form>    
-</div>   
+        <button class="yellowBox" id="uploadButton">Upload</button>
+    </fieldset>
+</form>

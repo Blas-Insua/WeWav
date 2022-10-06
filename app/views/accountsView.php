@@ -5,32 +5,58 @@
         private $smarty;
     
         public function __construct() {
-            $this->smarty = new Smarty();
+            $this->smarty = new Smarty();            
         }
     
-        function showAbout($account, $tracks) {
-            $this->smarty->assign('accounts', $account); 
+        public function showAbout($account, $tracks, $genres) {            
+            $this->smarty->assign('session', $_SESSION); 
+            $this->smarty->assign('genres', $genres); 
+            $this->smarty->assign('account', $account); 
             $this->smarty->assign('tracks', $tracks);    
             $this->smarty->display('about.tpl');
         }
 
-        function showAccounts($accounts) { 
+        public function showProfileManager($profile, $countries, $genres, $setting) {
+            require_once './app/controllers/appController.php';
+            $appController = new appController();  
+            $captcha = $appController->printCaptcha();
+
+            $this->smarty->assign('profile', $profile);
+            $this->smarty->assign('setting', $setting);                
+            $this->smarty->assign('countries', $countries);
+            $this->smarty->assign('genres', $genres);
+            $this->smarty->assign('captcha', $captcha);                        
+            $this->smarty->display('profileManager.tpl');
+        }
+
+        public function showAccounts($accounts) { 
             $this->smarty->assign('accounts', $accounts);    
             $this->smarty->display('accounts.tpl'); 
         }
 
-        function showSignupForm($countries, $genres) {  
-            require_once 'templates/header.tpl';
+        public function showAccountsStories($accounts) { 
+            $this->smarty->assign('accounts', $accounts);    
+            $this->smarty->display('accountsStories.tpl'); 
+        }        
+
+        public function showSignupForm($countries, $genres) {  
+            require_once './app/controllers/appController.php';
+            $appController = new appController();  
+            $captcha = $appController->printCaptcha();
+
+            $this->smarty->assign('captcha', $captcha);
             $this->smarty->assign('countries', $countries);
             $this->smarty->assign('genres', $genres);
             $this->smarty->display('signupForm.tpl');
-            require_once 'templates/footer.tpl';
         }
 
-        function showLoginForm() {
-            require_once 'templates/header.tpl';
+        public function showLoginForm() {
+            require_once './app/controllers/appController.php';
+            $appController = new appController();  
+            $captcha = $appController->printCaptcha();
+
+            $this->smarty->assign('captcha', $captcha);
             $this->smarty->display('loginForm.tpl');
-            require_once 'templates/footer.tpl';
         }
     }
 

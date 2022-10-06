@@ -6,10 +6,12 @@ window.onload = () => {
         window["menuBtn"].addEventListener('click', () => {                        
             document.getElementById("menuBar").classList.toggle("active");
         });
-    }
+    };
 
-
-    console.log(window.location.pathname);
+    if (window.location.pathname == "/WeWav/home/" || window.location.pathname == "/WeWav/") {
+        document.title = "WeWav/home";   
+        window["home"].classList.add("active");
+    };
 
     if (window.location.pathname == "/WeWav/artists/") {
         document.title = "WeWav/artists";   
@@ -20,5 +22,24 @@ window.onload = () => {
         document.title = "WeWav/tracks";   
         window["tracks"].classList.add("active");
     };
+
+    if (window.location.pathname == "/WeWav/genres/") {
+        document.title = "WeWav/genres";   
+        window["genres"].classList.add("active");
+    };
+
+    if (window.location.pathname == "/WeWav/upload/") {
+        document.title = "WeWav/upload";   
+        window["upload"].classList.add("active");
+    };   
+
+    document.querySelectorAll(".fileTitle").forEach(file => {
+        file.addEventListener("click", (e) => {
+            e.path[2].children[1].classList.toggle("hidden");
+            e.path[2].children[2].classList.toggle("hidden");
+            e.path[2].children[0].children[1].classList.toggle("hidden");
+        })
+    });
+    
 
 };

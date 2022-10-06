@@ -10,23 +10,25 @@ body {
     color: aliceblue;
 }
 
-.hidden {
-    display: none;
-}
-
 a, a:visited {
     color: aliceblue;
     text-decoration: none;
 }
 
+/* header */
+
 nav {
-    background-color: rgba(242, 230, 33, 0.95);
+    background-color: rgb(242, 230, 33);
     font-size: large;
     width: 100%;
     display: grid;
     grid-template-areas: 
     "nav1"
     "nav2";
+    z-index: 100;
+    position: fixed;
+    top: 0px;
+    width: 100%;
 }
 
 #nav1 {
@@ -34,7 +36,8 @@ nav {
     grid-area: nav1;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3),
+        inset 0px -10px 20px rgba(0, 0, 0, 0.2);
 }
 
 #PageLogo {
@@ -43,20 +46,31 @@ nav {
     padding-top: 8px;
     padding-bottom: 10px;
     padding-left: 15px;
+    padding-right: 15px;
+    width: min-content;
 }
 
 #menu {
-    z-index: 10;
     width: 100%;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#menu p {
+    margin: 0px;
+    height: min-content;
+    color: rgb(33, 33, 33);
+    font-size: larger;
+    user-select: none;
 }
 
 #menuBar {
+    z-index: 9;
     font-size: x-large;
     display: none;
-    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.3);
 }
 
 #menuBar.active {
@@ -67,19 +81,41 @@ nav {
     flex-direction: column;
 }
 
-.menuRoute {
+#menuBar details {
+    display: flex;
+    flex-direction: row; 
+}
+
+#menuBar details summary {
+    cursor: pointer;
+    user-select: none
+}
+
+#menuBar details ul {
+    width: 100%;
+    margin: auto;
+    margin-left: 0px;
+    user-select: none
+}
+
+.menuRoute{
     border-top: solid black 1px;
     padding-top: 7px;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 25px;
+    padding-right: 25px;
     padding-bottom: 10px;
-    background-color: rgba(242, 230, 33, 0.95);
+    background-color: rgb(242, 230, 33);
+    box-shadow: inset -10px -10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.menuRoute, .menuRoute:visited, a.managementRoute, a.managementRoute:visited {
+    color: rgb(33, 33, 33);
 }
 
 #menuBtn {
     background-color: rgba(0, 0, 0, 0);
     border: 0px;
-    margin: auto 10px auto auto;
+    margin: auto 10px auto 10px;
     border-radius: 50px;
     display: flex;
     flex-direction: column;
@@ -105,7 +141,7 @@ nav {
 
 .navRoute:hover, .navRoute.active {
     color: rgb(33, 33, 33);
-    background-color: rgba(242, 230, 33, 0.95);
+    background-color: rgb(242, 230, 33);
 }
 
 #nav2 {
@@ -117,17 +153,98 @@ nav {
     z-index: 8;
 }
 
+main {
+    margin-top: 120px;
+    margin-bottom: 100px;
+}
+
+footer {
+	background-color: rgba(242, 230, 33, 0.897);
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    z-index: 10;
+}
+
+footer p {
+	text-shadow: 0px 0px 5px rgba(0, 0, 0, 33%);
+	margin: 0px;
+    padding: 10px;
+}
+
+/* management */
+
+#sysManagement {
+    display: flex;
+    flex-direction: column;
+}
+
+#newGenre {
+    margin: auto;
+}
+
+#tracksManagement, #accountsManagement, #genresManagement {
+    margin: auto;
+    margin-top: 10px;
+    text-align: center;
+    width: 98%;
+}
+
+#tracksManagement tr, #accountsManagement tr, #genresManagement tr{
+    height: 50px;
+}
+
+#accountsManagement {
+    width: 66%;
+}
+
+#genresManagement {
+    width: 33%;
+}
+
+#tracksManagement, #tracksManagement th, #tracksManagement td, #accountsManagement, #accountsManagement th, #accountsManagement td, #genresManagement, #genresManagement th, #genresManagement td {
+    border: 1px solid aliceblue;
+    border-collapse: collapse;
+}
+
+caption {
+    margin-bottom: 5px;
+}
+
+/* about */
+
+.account {
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    width: fit-content;
+    box-shadow: 0px 0px 20px 1px rgba(33, 33, 33, 0.6);
+    border-radius: 15px;
+}
+
+.account .userCard {
+    margin: 0px;    
+}
+
 .userCard {
-	box-shadow: inset 0 0 2000px rgba(0, 0, 0, 0.973);
+    margin: auto auto 10px auto;
+	background-color: rgb(11, 11, 11);
 	border-radius: 15px;
     display: grid;
-    grid-template-columns: 4fr 2fr;
-    margin: 10px auto 10px auto;
+    grid-template-columns: 2fr 1fr;
     width: 350px;
+    height: 150px;
+    align-items: center;
+    z-index: 5;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
 }
 
 .userCard img {
-    margin: auto;
+    margin: auto 5px auto 5px;
+    width: 80%;
+    height: auto;
 }
 
 .userCard ul {
@@ -135,6 +252,104 @@ nav {
     padding-left: 0px;
     list-style: none;
 }
+
+.userCard ul li {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#profileManagement {
+    color:rgba(255, 255, 255, 0);   
+	background-image: url("../images/configButton.png");
+	background-position: 80% 50%;
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-color: rgb(201, 201, 201);
+    filter: invert();
+    border: 0px;
+    border-radius: 0px 15px 15px 0px;
+    margin-left: -20px;
+    padding-left: 20px;
+    height: inherit;
+}
+
+#accountManager {
+    max-width: 95%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+#accountManager ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border: 1px solid black;
+    border-radius: 10px 0px 0px 10px;
+    
+}
+
+#accountManager ul li {
+    background-color: rgba(201, 201, 201, 0.6);
+    height: 100%;
+    width: 100%;
+    color: black;
+    box-shadow: 0px 0px 20px 10px rgba(201, 201, 201, 0.3) inset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(50, 50, 50);
+}
+
+#accountManager ul li.active {
+    background-color: rgba(99, 99, 99, 0.6);
+    color: aliceblue;
+    box-shadow: 0px 0px 15px 10px rgba(0,0,0,0.2) inset;
+}
+
+#accountManager ul li:nth-child(1) {
+    border-radius: 10px 0px 0px 0px;
+}
+
+#accountManager ul li:nth-child(3) {
+    border-radius: 0px 0px 0px 10px;
+}
+
+#accountManager ul li a {
+    width: 100%;
+    height: 100%;
+    display: flex;   
+    justify-content: center;
+    align-items: center;
+}
+
+#accountManager .formContainer {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 0px 10px 10px 0px;
+    min-height: fit-content;
+    height: 420px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center
+}
+
+#accountManager .formContainer form{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin: auto;
+}
+
+#accountManager form div.general, #accountManager form div.security{
+    margin: auto;
+}
+
+/* tracks */
 
 .file {
     max-height: min-content;
@@ -148,6 +363,11 @@ nav {
     width: min-content;
 }
 
+.fileTitle {
+    width: 100%;
+    text-align: center;
+}
+
 .file a {
     color: black;
 }
@@ -159,11 +379,229 @@ nav {
 	padding-top: 10px;
 }
 
-.fileInfo {
-    margin: auto;
-    margin-left: 10px;
-}
-
 .file p {
 	margin: auto;
+}
+
+.fileInfo {
+    margin: auto;
+}
+
+.fileInfo form {
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+.trackForm {
+    width: 42%;
+}
+
+.trackForm input {
+    width: 95%;
+}
+
+.trackForm select {
+    width: 100%;
+}
+
+a.deleteFile {
+    font-size: 22.2px;
+    min-width: 30px;
+    min-height: 30px;
+	color:rgba(255, 255, 255, 0);
+    background-color: rgb(242, 230, 33);	
+	background-image: url("../images/deleteButton.png");
+	background-position: center;
+    background-size: 70%;
+    background-repeat: no-repeat;
+    margin-left: 25px;
+}
+
+.trackForm a.deleteFile {
+    font-size: medium;
+}
+
+td a.deleteFile, td input.editFile {
+    margin: 0px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.editFile {
+    cursor: pointer;
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    width: 30px;
+    height: 30px;
+    color:rgba(255, 255, 255, 0);
+    background-color: rgb(242, 230, 33);	
+	background-image: url("../images/editButton.png");
+	background-position: center;
+    background-size: 70%;
+    background-repeat: no-repeat;
+    margin-right: 25px;
+}
+
+#uploadFileForm {
+    margin: auto;
+    width: max-content;
+    margin-top: 10px;
+}
+
+#uploadFileForm fieldset {
+    background-color: rgba(0, 0, 0, 0.42);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* genres */
+
+#genresDiv {
+    margin: auto;
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+    max-width: 95%;
+    gap: 10px;
+    padding-bottom: 20px;
+}
+
+.genre, .genre:visited {    
+    color: rgb(33, 33, 33);
+    background-color: rgba(242, 230, 33, 0.95);    
+    border-radius: 10px;
+    min-height: 50px;
+    padding-left: 5px;
+    padding-right: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.genre:hover {
+    color: aliceblue;
+    background-color: rgb(33, 33, 33);    
+}
+
+/* home */
+
+#userStories {
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 10px;
+    width: 100%;
+    max-width: 100%;
+    margin-top: -10px;
+    padding-bottom: 10px;
+}
+
+#userStories .userLogo{ 
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 40px;
+    height: 40px;
+    scroll-snap-align: start;
+}
+
+/*  */
+
+.submitdiv {
+    display: flex;
+    flex-direction: column;
+    width: min-content;
+    margin: auto;
+    gap: 10px;
+}
+
+.submitdiv section:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+}
+
+.captcha {
+    display: flex;
+    width:min-content;
+    margin: auto;
+}
+
+#captcha {
+	resize: none;	
+	text-decoration: line-through;
+	font-family: Segoe UI, Frutiger, Helvetica, Arial, sans-serif;
+	font-size: x-large;
+	background-color: rgb(242, 230, 33);
+	color: rgb(22, 22, 22);
+	margin: auto;
+	padding: 4px 0px 4px 0px;
+	border-radius: 15px;
+	user-select: none;
+    width: 90px;
+    display: flex;
+    justify-content: center;
+}
+
+#reCaptcha {
+    margin-left: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+    border-color: transparent;
+    background-image: url("../images/reloadButton.png");    
+    background-size: 100%;
+    background-repeat: no-repeat;
+	background-color: rgb(242, 230, 33);	
+}
+
+#reCaptcha:hover {
+    transition: transform 0.3s;
+    transform: rotate(50deg);
+}
+
+.yellowBox {
+    margin: auto;
+    width: 130px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+	background-color: rgb(242, 230, 33);
+	border-color: transparent;
+}
+
+/* tablet */
+@media only screen and (min-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+
+    #genresDiv {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+/* pc */
+@media only screen and (min-width: 992px) {
+    body {
+        font-size: 16px;
+    }
+
+    #genresDiv {
+        grid-template-columns: repeat(9, 1fr);
+        margin-bottom: 180px;
+    }    
+
+    .user-data {
+        display: flex;
+        flex-direction: column;
+        width: min-content;
+        margin: auto;
+    }
+}
+
+.hidden {
+    display: none !important; 
 }
