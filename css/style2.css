@@ -174,6 +174,10 @@ footer p {
     padding: 10px;
 }
 
+.userLogo {
+    border-radius: 50px;
+}
+
 /* management */
 
 #sysManagement {
@@ -241,6 +245,16 @@ caption {
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
 }
 
+.userCard div {
+    display: flex;
+    width: 100%;
+    position: relative;
+}
+
+.userCard div details, .userCard div details::after {
+    position: absolute;
+}
+
 .userCard img {
     margin: auto 5px auto 5px;
     width: 80%;
@@ -278,6 +292,7 @@ caption {
     margin: auto;
     display: grid;
     grid-template-columns: 1fr 3fr;
+    min-height: 420px;
 }
 
 #accountManager ul {
@@ -330,7 +345,6 @@ caption {
     background-color: rgba(0, 0, 0, 0.8);
     border-radius: 0px 10px 10px 0px;
     min-height: fit-content;
-    height: 420px;
     padding-top: 10px;
     padding-bottom: 10px;
     display: flex;
@@ -338,15 +352,104 @@ caption {
     justify-content: center
 }
 
-#accountManager .formContainer form{
-    display: flex;
-    flex-direction: column;
+.formContainer form{
+    display: grid; 
+    justify-content: center; 
     width: 60%;
+    margin: 0px auto 0px auto;  
+    grid-template-rows: auto;
+    gap: 0px 5px;
+}
+
+.formContainer form.editProfileGeneral {
+    grid-template-columns: 1fr 1fr; 
+    grid-template-areas: 
+      "name aka"
+      "genre country"
+      "pass photo"
+      "reset reset"
+      "submit submit"; 
+    
+}
+.signup-form #profileForm {
+    grid-template-columns: 1fr 1fr; 
+    grid-template-areas: 
+      "name aka"
+      "pass passConfirm"
+      "genre country"
+      "photo reset"
+      "submit submit"; 
+}
+.login-form #profileForm {
+    grid-template-columns: 1fr;  
+    grid-template-areas: 
+      "name"
+      "pass"
+      "submit"; 
+}
+#accountManager .formContainer form.editProfileSecurity{
+    margin: auto;
+    grid-template-columns: 1fr; 
+    grid-template-areas: 
+      "pass"
+      "passNew"
+      "passConfirm"
+      "submit"; 
+}
+#accountManager .formContainer form.editProfileDelete{
+    display: flex;
     margin: auto;
 }
 
-#accountManager form div.general, #accountManager form div.security{
+form fieldset#name{
+    grid-area: name;
+}
+form fieldset#AKA{
+    grid-area: aka;
+}
+form fieldset#password{
+    grid-area: pass;
+}
+form fieldset#passwordNew{
+    grid-area: passNew;
+}
+form fieldset#passwordConfirm{
+    grid-area: passConfirm;
+}
+form fieldset#country{
+    grid-area: country;
+}
+form fieldset#genre{
+    grid-area: genre;
+}
+fieldset#userPhoto{
+    grid-area: photo;
+}
+.formContainer input#reset{
+    grid-area: reset;
     margin: auto;
+    margin-top: 5px;
+    padding: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+    width: min-content;
+}
+
+div#errorDIV{
+    height: min-content;
+}
+
+#accountManager .formContainer form fieldset, div.signup-form #profileForm fieldset{
+    width: 50%;
+    min-width: 300px;
+    margin: auto;
+}
+
+#accountManager .formContainer form fieldset input, div.signup-form #profileForm fieldset input {
+    width: 97.3333%;
+}
+#accountManager .formContainer form fieldset select, div.signup-form #profileForm fieldset select {
+    width: 100%;
 }
 
 /* tracks */
@@ -444,18 +547,24 @@ td a.deleteFile, td input.editFile {
     margin-right: 25px;
 }
 
+#uploadFileDIV, .login-form, .signup-form {
+    background-color: rgba(0, 0, 0, 0.8);
+    margin: auto;
+    width: min-content;
+    height: min-content;
+    padding: 15px;
+    border-radius: 10px;
+}
 #uploadFileForm {
     margin: auto;
     width: max-content;
     margin-top: 10px;
-}
-
-#uploadFileForm fieldset {
-    background-color: rgba(0, 0, 0, 0.42);
     display: flex;
     flex-direction: column;
     justify-content: center;
+    gap: 10px;
 }
+
 
 /* genres */
 
@@ -490,20 +599,35 @@ td a.deleteFile, td input.editFile {
 
 /* home */
 
+
+
 #userStories {
     display: flex;
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
     scroll-padding: 10px;
-    width: 100%;
+    width: 98%;
+    margin: auto;
     max-width: 100%;
     margin-top: -10px;
     padding-bottom: 10px;
+    gap: 10px;
+}
+
+#userStories::-webkit-scrollbar {
+    width: 10px;
+}
+#userStories::-webkit-scrollbar-track {
+    background: rgb(99, 99, 99); 
+}
+#userStories::-webkit-scrollbar-thumb {
+    background: rgb(66, 66, 66); 
+}
+#userStories::-webkit-scrollbar-thumb:hover {
+    background: rgb(33, 33, 33); 
 }
 
 #userStories .userLogo{ 
-    padding-left: 10px;
-    padding-right: 10px;
     width: 40px;
     height: 40px;
     scroll-snap-align: start;
@@ -517,6 +641,7 @@ td a.deleteFile, td input.editFile {
     width: min-content;
     margin: auto;
     gap: 10px;
+    grid-area: submit;
 }
 
 .submitdiv section:nth-child(2) {
@@ -565,11 +690,25 @@ td a.deleteFile, td input.editFile {
 
 .yellowBox {
     margin: auto;
-    width: 130px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-left: 45px;
+    padding-right: 45px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: larger;
 	background-color: rgb(242, 230, 33);
 	border-color: transparent;
+    cursor: pointer;
+}
+
+#errorDIV {
+    text-align: center;
+    margin: 2px auto 2px auto;
+}
+#errorDIV.active {
+    background-color: rgb(255, 80, 80);
+    color: black;
+    border: 1px solid red;
+    border-radius: 10px;
 }
 
 /* tablet */
@@ -588,6 +727,8 @@ td a.deleteFile, td input.editFile {
     body {
         font-size: 16px;
     }
+
+
 
     #genresDiv {
         grid-template-columns: repeat(9, 1fr);

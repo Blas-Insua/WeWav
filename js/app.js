@@ -33,6 +33,11 @@ window.onload = () => {
         window["upload"].classList.add("active");
     };   
 
+    if ((window.location.pathname == "/WeWav/login/") || (window.location.pathname == "/WeWav/loginSubmit/")) {
+        document.title = "WeWav/login";   
+    }; 
+    
+
     document.querySelectorAll(".fileTitle").forEach(file => {
         file.addEventListener("click", (e) => {
             e.path[2].children[1].classList.toggle("hidden");
@@ -40,6 +45,16 @@ window.onload = () => {
             e.path[2].children[0].children[1].classList.toggle("hidden");
         })
     });
-    
 
+    console.log(window["userPhoto"]);
+    
+    if (window["errorDIV"]) {
+        console.log(window["errorDIV"]);
+        let errorDIV = window["errorDIV"];
+        errorDIV.scrollIntoView({behavior:"smooth"});
+        errorDIV.classList.add("active"); 
+        setTimeout(() => {
+            errorDIV.classList.remove("active"); 
+        }, 500);
+    };
 };

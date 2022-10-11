@@ -28,7 +28,14 @@
             
             return $tracks;
         }
-        
+
+        public function getFile($id) {
+            $query = $this->db->prepare("SELECT * FROM tracks t WHERE t.id = ?");
+            $query->execute([$id]);
+            $track = $query->fetch(PDO::FETCH_OBJ); 
+            
+            return $track;
+        }        
 
         public function uploadFile($user_id, $trackName, $trackGenre, $trackDate) {
             try {
@@ -51,8 +58,8 @@
 
         public function editFile($trackID, $trackName, $trackGenre, $trackDate) { 
             try {
-                $query = $this->db->prepare("UPDATE `tracks` SET `name` = ?, `genre_id` = ?, `date` = ? WHERE `tracks`.`id` = ? AND `tracks`.`user_id` = ?"); 
-                $query->execute(array($trackName, $trackGenre, $trackDate, $trackID, $_SESSION["user_id"]));
+                $query = $this->db->prepare("UPDATE `tracks` SET `name` = ?, `genre_id` = ?, `date` = ? WHERE `tracks`.`id` = ?"); 
+                $query->execute(array($trackName, $trackGenre, $trackDate, $trackID));
 
             } catch(PDOException $e) {
                 echo $query . "<br>" . $e->getMessage();

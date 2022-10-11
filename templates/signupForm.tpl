@@ -1,44 +1,32 @@
-<form id="profileForm" action="signupSubmit" method="post">
-    <fieldset class="user-data">
-        <legend>Account Data</legend>
-
-        <label for="createUserName">User name:</label>
-            <input type="text" id="createUserName" name="name" required>
-                <br>
-        <label for="createUserAKA">A.k.a:</label>
-            <input type="text" id="createUserAKA" name="AKA">
-                <br>
-        <label for="createUserPass">Password:</label>
-            <input type="password" id="createUserPass" name="pass" required> 
-                <br>
-        <label for="createUserPassConfirm">Confirm password:</label>
-                <input type="password" id="createUserPassConfirm" name="passConfirm" required> 
-                    <br>
-        <label for="createUserCountry">Country</label>      
+<div class="formContainer signup-form">
+    <form id="profileForm" action="signupSubmit/" method="post" enctype="multipart/form-data">
+        <fieldset id="name"><legend>User Name</legend><input type="text" id="createUserName" name="name" required></fieldset>
+        <fieldset id="AKA"><legend>AKA</legend><input type="text" id="createUserAKA" name="AKA"></fieldset>
+        <fieldset id="pass"><legend>Password</legend><input type="password" id="createUserPass" name="pass" required></fieldset>
+        <fieldset id="passConfirm"><legend>Confirm password</legend><input type="password" id="createUserPassConfirm" name="passConfirm" required></fieldset>
+        <fieldset id="country"><legend>Country</legend>
             <select id="createUserCountry" name="country">
-                {foreach from=$countries item=$country}
-                    <option value="{$country->id}">{$country->country}</option>
-                {/foreach}
-            </select>
-                <br>
-        <label>Are you an artist?</label>
-            <select id="createUserisArtist" name="artist">
-                <option value="0">No</option>
-                <option value="1">Yes</option>									
-            </select>
-                <br>
-        <label for="createUserArtistGenre">What genre do you do?:</label>
+                    {foreach from=$countries item=$country}
+                        <option value="{$country->id}">{$country->country}</option>
+                    {/foreach}
+                </select>
+        </fieldset>
+        <fieldset id="genre"><legend>Genre</legend>
             <select id="createUserArtistGenre" name="genre">
                 {foreach from=$genres item=$genre}
                     <option value="{$genre->id}">{$genre->genre}</option>
                 {/foreach}
             </select>
-                <br>
-        <label for="createUserProfilePhoto">Profile photo:</label>
-            <input type="file" id="createUserProfilePhoto" name="createUserProfilePhoto"> 
-                <br>
-        <input type="reset"><br>
+        </fieldset>
+        <fieldset id="userPhoto"><legend>Profile photo</legend><input type="file" id="userPhoto" name="file">recommended 100x100px max 20mb</fieldset>
+        <input id="reset" class="yellowBox" type="reset">
+
+        {if $error}
+            <div id="errorDIV">
+                <p>{$error}</p>
+            </div>
+        {/if}
 
         {include file="captcha&submit.tpl" form="Signup"}
-    </fieldset>
-</form>
+    </form>
+</div>

@@ -6,49 +6,54 @@
     </ul> 
     <div class="formContainer"> 
         {if $setting=="general" || $setting==null}
-            <form id="profileForm" action="editProfile/{$profile->id}" method="post" class="editProfileGeneral">
-                <label for="name">User name:</label>
-                    <input type="text" name="name" required value="{$profile->name}">
-                <label for="AKA">A.k.a:</label>
-                    <input type="text" name="AKA" value="{$profile->AKA}">                        
-                <label for="password">Password:</label>
-                    <input type="password" name="password" required> 
-                <label for="country">Country</label>      
+            <form id="profileForm" action="editProfile/{$profile->name}" method="post" class="editProfileGeneral">
+                <fieldset id="name" for="name"><legend>User name</legend><input type="text" name="name"></fieldset>
+                <fieldset id="AKA" for="AKA"><legend>A.k.a</legend><input type="text" name="AKA"></fieldset>    
+                <fieldset id="password" for="password"><legend>Password</legend><input type="password" name="password" required></fieldset>    
+                <fieldset id="country" for="country"><legend>Country</legend>
                     <select name="country" >
                         {foreach from=$countries item=$country}
-                            <option value="{$country->id}" {if $country->id==$profile->country_id}selected{/if}>{$country->country}</option>
+                            <option value="{$country->id}">{$country->country}</option>
                         {/foreach}
                     </select>
-                <label for="genre">What genre do you do?:</label>
+                </fieldset>    
+                <fieldset id="genre" for="genre"><legend>Genre</legend>
                     <select name="genre">
                         {foreach from=$genres item=$genre}
-                            <option value="{$genre->id}" {if $genre->id==$profile->genre_id}selected{/if}>{$genre->genre}</option>
+                            <option value="{$genre->id}">{$genre->genre}</option>
                         {/foreach}
-                    </select>
-                <label for="userPhoto">Profile photo:</label>
-                    <input type="file" name="userPhoto">
-                <input type="reset" value="Reset"><br>
+                    </select>                
+                </fieldset>    
+                <fieldset id="userPhoto" for="userPhoto"><legend>Profile photo</legend><input type="file" name="file"></fieldset>    
+                <input id="reset" type="reset" value="Reset" class="yellowBox">
             </form> 
         {else}
             {if $setting=="security"}
-            <form id="profileForm" action="editProfile/{$profile->id}" method="post" class="editProfileSecurity">
-                <label for="password">Old password:</label>
-                    <input type="password" name="password" required> 
-                        
-                <label for="passwordNew">New password:</label>
-                    <input type="password" name="passwordNew" required> 
-                                    
-                <label for="passwordConfirm">Confirm new password:</label>
-                    <input type="password" name="passwordConfirm" required><br>        
-            </form>
+                <form id="profileForm" action="editProfile/{$profile->name}" method="post" class="editProfileSecurity">
+                    <fieldset id="password" for="password"><legend>Old password</legend>
+                        <input type="password" name="password" required> 
+                    </fieldset> 
+                    <fieldset id="passwordNew" for="passwordNew"><legend>New password</legend>
+                        <input type="password" name="passwordNew" required> 
+                    </fieldset> 
+                    <fieldset id="passwordConfirm" for="passwordConfirm"><legend>Confirm new password</legend>
+                        <input type="password" name="passwordConfirm" required> 
+                    </fieldset>                           
+                </form>
             {else}
                 {if $setting=="delete"}
-                <form id="profileForm" action="deleteProfile/{$profile->id}" method="post" class="editProfileDelete">
-                    <label for="password">Enter your password:</label>
-                        <input type="password" name="password" required><br>
+                <form id="profileForm" action="deleteProfile/{$profile->name}" method="post" class="editProfileDelete">
+                    <fieldset id="password" for="password"><legend>Enter your password</legend>
+                        <input type="password" name="password" required> 
+                    </fieldset>                 
                 </form>  
                 {/if}
             {/if}
+        {/if}
+        {if $error}
+            <div id="errorDIV">
+                <p>{$error}</p>
+            </div>
         {/if}
         
         {include file="captcha&submit.tpl" form="Submit"}

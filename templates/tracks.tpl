@@ -7,9 +7,9 @@
             </div>
             <img src="images/file.png" class="filePhoto hidden">
             <div class="fileInfo hidden">
-                {if $track->userName==$session["name"]}
+                {if $smarty.session.loggedin==true && $track->userName==$smarty.session.name}
                     <form action="editFile/{$track->id}" method="post">
-                        <button type="submit" class="editFile" title="Edit track">edit</button>
+                        <button type="submit" class="editFile" title="Edit track" name="editFile">edit</button>
                         <div class="trackForm">
                             <label for="name">Track name:</label>
                                 <input type="text" name="name" value="{$track->name}" required></input><br>
@@ -20,7 +20,7 @@
                                     {/foreach}
                                 </select><br>
                             <label for="date">Date:</label>
-                                <input type="date" name="date" value="{$track->date}" required></input><br> 
+                                <input type="date" name="date" value="{$track->date}"></input><br> 
                         </div>   
                         <a class="deleteFile" href="deleteFile/{$track->id}/" title="Delete track">del</a>                    
                     </form>                    

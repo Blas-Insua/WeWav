@@ -12,6 +12,7 @@ class appController {
     public function printHeader() {
         session_start();
         if (!isset($_SESSION["name"])) {
+            $_SESSION["loggedin"] =false;
             $_SESSION["rol"] = 3;
         };
         $this->appView->showHeader($_SESSION["rol"]);
@@ -53,7 +54,7 @@ class appController {
             $this->view = new adminView();
             $this->view->showSystemManagement($tracks, $genres, $accounts, $roles, $management); 
         } else {
-            header("location:".BASE_URL."home/");
+            header("location:".BASE_URL);
         }
     }
 }

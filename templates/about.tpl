@@ -6,9 +6,19 @@
             <li><b>Country:</b> {$account->country}</li>    
             <li><b>Genre:</b> {$account->genre}</li> 
         </ul>
-        <img class="userLogo" src="images/profile_icons/default.png">
+    <div>
+        <details><summary></summary>
+        <ul>
+            <li>Edit profile photo</li>
+            <li>Delete profile photo</li>
+        </ul>
+        </details>
+        <img class="userLogo" src="{if $account->artist==null}./images/profile_photos/default.png{else}{$account->artist}{/if}"></img>
     </div>
-    {if $account->name==$session["name"]}
+                    
+                
+    </div>
+    {if $smarty.session.loggedin==true && $account->name==$smarty.session.name}
         <a id="profileManagement" href="account/{$account->name}/">profile</a>
     {/if}
 </div>

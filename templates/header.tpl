@@ -14,16 +14,16 @@
             <div id='nav1'>
                 <a id="PageLogo" class="logo" href="home/">WeWav</a>                  
                 <div id='menu'> 
-                    {if $rol != 3}<p>{$user_name}</p>{/if}
+                    {if $smarty.session.rol != 3}<p>{$smarty.session.name}</p>{/if}
                     <button class="menuBtn" id="menuBtn">
                         <span class="menuline"></span>
                         <span class="menuline"></span>
                         <span class="menuline"></span>
                     </button>
                     <div id="menuBar">                        
-                        {if $rol != 3}                            
-                            <a id="profile" href="about/{$user_name}/" class="menuRoute">My Profile</a>
-                            {if $rol != 2}
+                        {if $smarty.session.rol != 3}                            
+                            <a id="profile" href="about/{$smarty.session.name}/" class="menuRoute">My Profile</a>
+                            {if $smarty.session.rol != 2}
                                 <details class="menuRoute">
                                     <summary>System management</summary>
                                     <ul>

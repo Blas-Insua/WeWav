@@ -34,35 +34,55 @@ class tracksController {
 
     public function uploadFile() {
         session_start();
-        $user_id = $_SESSION["user_id"];
-        $trackName = $_POST["uploadFileName"];
-        $trackGenre = $_POST["uploadFileGenre"];
-        $trackDate = $_POST["uploadFileDate"];
+        if (isset($_SESSION["loggedin"])) {
+            $user_id = $_SESSION["user_id"];
+            $trackName = $_POST["uploadFileName"];
+            $trackGenre = $_POST["uploadFileGenre"];
+            $trackDate = $_POST["uploadFileDate"];
 
-        $this->model->uploadFile($user_id, $trackName, $trackGenre, $trackDate);
+            $this->model->uploadFile($user_id, $trackName, $trackGenre, $trackDate);
 
-        header("Location:".BASE_URL."about/".$_SESSION["name"]."/"); 
+            header("Location:".BASE_URL."about/".$_SESSION["name"]."/");
+        } else {
+            header("Location:".BASE_URL."login/");
+        }         
     }
 
     public function deleteFile($trackID) {
         session_start();
-        if ($_SESSION["rol"] != 3) {
-            $this->model->deleteFile($trackID);
-            header("location:".$_SERVER['HTTP_REFERER']);
+        if (isset($_SESSION["loggedin"])) {
+            $track = $this->model->getFile($trackID);
+
+            if ($_SESSION["user_id"]==$track->user_id || ($_SESSION["rol"]==0 || $_SESSION["rol"]==1)){
+                $this->model->deleteFile($trackID);
+                header("location:".$_SERVER['HTTP_REFERER']);
+            } else {
+                header("Location:".BASE_URL);
+            }
         } else {
-            header("location:".BASE_URL."login/");
-        }
+            header("Location:".BASE_URL."login/");
+        } 
     }
 
     public function editFile($trackID) {
         session_start();
-        $trackName = $_POST["name"];
-        $trackGenre = $_POST["genre"];
-        $trackDate = $_POST["date"];
+        if (isset($_SESSION["loggedin"]) && isset($_POST["editFile"])) {
+            $track = $this->model->getFile($trackID);
 
-        $this->model->editFile($trackID, $trackName, $trackGenre, $trackDate);
+            if ($_SESSION["user_id"]==$track->user_id){
+                $trackName = $_POST["name"];
+                $trackGenre = $_POST["genre"];
+                $trackDate = $_POST["date"];
 
-        header("location:".$_SERVER['HTTP_REFERER']); 
+                $this->model->editFile($trackID, $trackName, $trackGenre, $trackDate);
+
+                header("location:".$_SERVER['HTTP_REFERER']);
+            } else {
+                header("Location:".BASE_URL);
+            }
+        } else {
+            header("Location:".BASE_URL."login/");
+        }      
     }
 
     public function printTracksByGenre($filter) {

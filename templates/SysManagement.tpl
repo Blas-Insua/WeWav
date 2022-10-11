@@ -41,14 +41,14 @@
                 </thead>
                 <tbody>
                     {foreach from=$accounts item=$profile}
-                        <form id="profile_{$profile->id}" action="editProfile/{$profile->id}" method="post"></form>
+                        <form id="profile_{$profile->name}" action="editProfile/{$profile->name}" method="post"></form>
                         <tr>
-                            <td><input type="submit" form="profile_{$profile->id}" class="editFile" title="Edit profile"></input></td>
+                            <td><input type="submit" form="profile_{$profile->name}" class="editFile" title="Edit profile"></input></td>
                             <td>
                                 {if $profile->rol_id==0 || $profile->name==$session["name"]}
                                     <p>{$profile->rol}</p>
                                 {else}
-                                    <select name="user_rol" form="profile_{$profile->id}">
+                                    <select name="user_rol" form="profile_{$profile->name}">
                                         {foreach from=$roles item=$user_rol}
                                             {if $user_rol->rol!='Guest'}
                                                 <option value="{$user_rol->id}" {if $profile->rol_id==$user_rol->id}selected{/if}>
