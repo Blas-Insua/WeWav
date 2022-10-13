@@ -9,7 +9,7 @@
         }
     
         public function showAbout($account, $tracks, $genres) {         
-            $this->smarty->assign('session', $_SESSION); 
+
             $this->smarty->assign('genres', $genres); 
             $this->smarty->assign('account', $account);    
             $this->smarty->assign('tracks', $tracks);    

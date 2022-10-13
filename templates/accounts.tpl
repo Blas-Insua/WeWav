@@ -6,6 +6,8 @@
         <li><b>Country:</b> {$account->country}</li>    
         <li><b>Genre:</b> <a href="genres/{$account->genre}/">{$account->genre}</a></li>   
     </ul>
-<img class="userLogo" src="{if $account->artist==null}./images/profile_photos/default.png{else}{$account->artist}{/if}"></img>
+    <div class="userLogo">
+        <img src="{if $account->photo_dir==null}./images/profile_photos/default.png{else}{$account->photo_dir}{/if}"></img>
+    </div>
 </div>
 {/foreach}

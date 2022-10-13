@@ -7,21 +7,16 @@
             <li><b>Genre:</b> {$account->genre}</li> 
         </ul>
     <div>
-        <details><summary></summary>
-        <ul>
-            <li>Edit profile photo</li>
-            <li>Delete profile photo</li>
-        </ul>
-        </details>
-        <img class="userLogo" src="{if $account->artist==null}./images/profile_photos/default.png{else}{$account->artist}{/if}"></img>
+        <div class="userLogo">
+            <img src="{if $account->photo_dir==null}./images/profile_photos/default.png{else}{$account->photo_dir}{/if}"></img>
+        </div>
     </div>
                     
                 
     </div>
     {if $smarty.session.loggedin==true && $account->name==$smarty.session.name}
-        <a id="profileManagement" href="account/{$account->name}/">profile</a>
+        <a id="profileManagement" href="account/{$account->name}/settings/">profile</a>
     {/if}
 </div>
-<div id="tracksList">        
-    {include file="tracks.tpl"} 
-</div>
+
+{include file="tracks.tpl"} 

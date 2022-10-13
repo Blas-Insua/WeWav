@@ -18,7 +18,7 @@
                 {/foreach}
             </select>
         </fieldset>
-        <fieldset id="userPhoto"><legend>Profile photo</legend><input type="file" id="userPhoto" name="file">recommended 100x100px max 20mb</fieldset>
+        <fieldset id="userPhoto"><legend>Profile photo</legend><input type="file" id="userPhoto" name="profilePhoto">recommended 100x100px max 20mb</fieldset>
         <input id="reset" class="yellowBox" type="reset">
 
         {if $error}

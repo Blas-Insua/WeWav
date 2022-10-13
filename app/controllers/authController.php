@@ -26,51 +26,35 @@ class authController {
 
         if ($account) {
             $captcha = $this->appController->printCaptcha();
-            $this->view->showSignupForm($captcha, 'This user name or AKA is already taken.');
+            $error = 'This user name or AKA is already taken.';
         } else {
-            if ($_FILES) {                
-                $filename = $_FILES["file"]["name"];
-                $tempname = $_FILES["file"]["tmp_name"];
-                $target_dir  = "./images/profile_photos/";
-                $target_file = $target_dir . basename($_FILES["file"]["name"]);
-                $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-
-                $extensions_arr  = array('jpg','png','jpeg');
-                if(in_array($imageFileType, $extensions_arr)){
-                    
-                    if(move_uploaded_file($_FILES['file']['tmp_name'],$target_dir.$filename)){
-                        // Convert to base64 
-                        $image_base64 = base64_encode(file_get_contents("./images/profile_photos/".$filename) );
-                        $image = 'data:image/'.$imageFileType.';base64,'.$image_base64;
-                        if (($passwordParam==$_POST['passConfirm'])) {
-                            $password = password_hash($passwordParam, PASSWORD_BCRYPT); 
-                            $this->model->createAccount($name, $AKA, $password, $genre, $country, $image, $target_dir.$filename);
-                            header("location:".BASE_URL."login/");
-                            
-                        } else { 
-                            $error = 'The passwords no match.'; 
-                        }
+            if (($passwordParam==$_POST['passConfirm'])) {
+                $password = password_hash($passwordParam, PASSWORD_BCRYPT); 
+                if ($_FILES) {   
+                    if ($_FILES['profilePhoto']['type'] == "image/jpg" || $_FILES['profilePhoto']['type'] == "image/jpeg" || $_FILES['profilePhoto']['type'] == "image/png")  {
+                        $photo = $_FILES["profilePhoto"]["tmp_name"];   
+                        $photo_dir = "./images/profile_photos/".uniqid("", true).".".strtolower(pathinfo($_FILES['profilePhoto']['name'], PATHINFO_EXTENSION));
+                        
+                        $this->model->createAccount($name, $AKA, $password, $genre, $country, $photo, $photo_dir); 
+        
                     } else {
-                        $error = "upload error";
-                    }
-                }else{
-                    $error = 'Sorry, only JPG, JPEG, PNG files are allowed to upload.';
-                }  
-            } else {
-                if (($passwordParam==$_POST['passConfirm'])) {
-                    $password = password_hash($passwordParam, PASSWORD_BCRYPT); 
+                        $error = 'Sorry, only JPG, JPEG, PNG files are allowed to upload.';
+                    }             
+                } else {
                     $this->model->createAccount($name, $AKA, $password, $genre, $country); 
-                } else {                      
-                    $error = 'The passwords no match.'; 
                 }
-            };
-            if (!$error) {
-                header("location:".BASE_URL."login/");
-            } else {
-                $captcha = $this->appController->printCaptcha(); 
-                $this->view->showSignupForm($captcha, $error);
+            } else {                      
+                $error = 'The passwords no match.'; 
             }
-        };
+        }
+        
+
+        if (!$error) {
+            header("location:".BASE_URL."login/");
+        } else {
+            $captcha = $this->appController->printCaptcha(); 
+            $this->view->showSignupForm($captcha, $error);
+        }
     }
 
     public function printLoginForm() { 

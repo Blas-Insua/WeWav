@@ -58,15 +58,35 @@ switch ($params[0]) {
         break;
     case 'account':
         $accountsController = new accountsController();
-        $accountsController->printProfileManager($params[1], null);     
-        break;
-    case 'accountSettings':
-        $accountsController = new accountsController();
-        $accountsController->printProfileManager($_SESSION["name"], $params[1]);     
+        if ($params[2] && $params[2]=="settings") {        
+            switch ($params[3]) {
+                case 'general':
+                    $accountsController->printProfileManager($params[1], $params[3]);
+                    break;
+                case 'profilePhoto':
+                    if ($params[4] && $params[4]=="delete") {
+                        $accountsController->deleteProfilePhoto($params[1]);
+                    } else {
+                        $accountsController->printProfileManager($params[1], $params[3]);
+                    }
+                    break;
+                case 'security':
+                    $accountsController->printProfileManager($params[1], $params[3]);
+                    break;
+                case 'delete':
+                    $accountsController->printProfileManager($params[1], $params[3]);
+                    break;                
+                default:
+                    $accountsController->printProfileManager($params[1], "general");
+                    break;
+            }     
+        } else {            
+            $accountsController->printAbout($params[1]);
+        }     
         break;
     case 'editProfile':
         $accountsController = new accountsController();
-        $accountsController->editProfile($params[1]);        
+        $accountsController->editProfile($params[1], $params[2]);        
         break;
     case 'deleteProfile':
         $accountsController = new accountsController();
@@ -100,6 +120,14 @@ switch ($params[0]) {
             $genresController = new genresController();
             $genresController->printGenres();
         }
+        break;
+    case 'editGenre':
+        $genresController = new genresController();
+        $genresController->editGenre($params[1]);
+        break;
+    case 'deleteGenre':
+        $genresController = new genresController();
+        $genresController->deleteGenre($params[1]);
         break;
     default:
         echo('404 Page not found');

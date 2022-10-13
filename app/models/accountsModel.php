@@ -7,7 +7,7 @@
         }
 
         public function getAllAccounts() {
-            $query = $this->db->prepare("SELECT a.id, a.name, a.AKA, a.photo, a.artist, a.genre_id, g.genre, a.country_id, c.country, r.rol, a.rol_id
+            $query = $this->db->prepare("SELECT a.*, g.genre, c.country, r.rol 
                                         FROM accounts a 
                                         INNER JOIN genres g ON g.id = a.genre_id
                                         INNER JOIN countries c ON c.id = a.country_id 
@@ -19,7 +19,7 @@
         }
 
         public function getAccount($profile) {
-            $query = $this->db->prepare("SELECT a.id, a.name, a.password, a.AKA, a.photo, a.artist, a.genre_id, g.genre, a.country_id, c.country, r.rol, a.rol_id
+            $query = $this->db->prepare("SELECT a.*, g.genre, c.country, r.rol
                                         FROM accounts a 
                                         INNER JOIN genres g ON g.id = a.genre_id
                                         INNER JOIN countries c ON c.id = a.country_id
@@ -39,9 +39,12 @@
             return $roles;
         }
 
-        public function createAccount($name, $AKA, $password, $genre, $country, $imagen, $photo = null) {
-            $query = $this->db->prepare("INSERT INTO accounts (name, AKA, password, artist, photo, genre_id, country_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $query->execute([$name, $AKA, $password, $imagen, $photo, $genre, $country]);
+        public function createAccount($name, $AKA, $password, $genre, $country, $photo = null, $photo_dir = null) {
+            if ($photo!=null) {
+                move_uploaded_file($photo, $photo_dir);  
+            }
+            $query = $this->db->prepare("INSERT INTO accounts (name, AKA, password, genre_id, country_id, photo, photo_dir) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $query->execute([$name, $AKA, $password, $genre, $country, $photo, $photo_dir]);
             $user = $query->fetch(PDO::FETCH_OBJ); 
         }       
 
@@ -63,11 +66,11 @@
             }            
         }
 
-        public function editProfile($id, $name, $AKA, $genre, $country, $photo = null) {
+        public function editProfile($id, $name, $AKA, $genre, $country) {
             $query = $this->db->prepare("UPDATE `accounts` 
-                        SET `name`= ?,`AKA`= ?, `photo` = ?,`genre_id` = ?,`country_id`= ? 
+                        SET `name`= ?,`AKA`= ?,`genre_id` = ?,`country_id`= ? 
                         WHERE `accounts`.`id`= ?");
-            $query->execute([$name, $AKA, $photo, $genre, $country, $id]);
+            $query->execute([$name, $AKA, $genre, $country, $id]);
         }
 
         public function editProfileRol($id, $rol) {
@@ -80,8 +83,15 @@
             $query->execute([$password, $id]);
         }
 
-        public function editProfilePhoto($id, $file, $path) {
-            $query = $this->db->prepare("UPDATE `accounts` SET `artist`= ?, `photo`= ? WHERE `accounts`.`id`= ?");
-            $query->execute([$file, $path, $id]);
+        public function editProfilePhoto($id, $photo, $photo_dir) {
+            if (move_uploaded_file($photo, $photo_dir)) {
+                $query = $this->db->prepare("UPDATE `accounts` SET `photo`= ?, `photo_dir`= ? WHERE `accounts`.`id`= ?");
+                $query->execute([$photo, $photo_dir, $id]);  
+            }    
+        }
+
+        public function deleteProfilePhoto($id) {
+            $query = $this->db->prepare("UPDATE `accounts` SET `photo`= '', `photo_dir`= '' WHERE `accounts`.`id`= ?");
+            $query->execute([$id]);    
         }
     }

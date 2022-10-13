@@ -7,7 +7,7 @@
         }
 
         public function getTracks() {
-            $query = $this->db->prepare("SELECT t.id, t.name, t.user_id, a.name as userName, t.genre_id, g.genre, t.date, folder_id
+            $query = $this->db->prepare("SELECT t.*, a.name as userName, g.genre
                                         FROM tracks t
                                         INNER JOIN accounts a ON a.id = t.user_id
                                         INNER JOIN genres g ON g.id = t.genre_id");
@@ -18,7 +18,7 @@
         }
 
         public function getTracksBy($filter) {
-            $query = $this->db->prepare("SELECT t.id, t.name, t.user_id, a.name as userName, t.genre_id, g.genre, t.date, folder_id
+            $query = $this->db->prepare("SELECT t.*, a.name as userName, g.genre
                                         FROM tracks t
                                         INNER JOIN accounts a ON a.id = t.user_id
                                         INNER JOIN genres g ON g.id = t.genre_id
@@ -37,10 +37,13 @@
             return $track;
         }        
 
-        public function uploadFile($user_id, $trackName, $trackGenre, $trackDate) {
+        public function uploadFile($user_id, $trackName, $trackGenre, $trackDate, $photo = null, $photo_dir =null) {
+            if ($photo!=null) {
+                move_uploaded_file($photo, $photo_dir);
+            }  
             try {
-                $query = $this->db->prepare("INSERT INTO `tracks`(`name`, `user_id`, `genre_id`, `date`) VALUES (?, ?, ?, ?)"); 
-                $query->execute([$trackName, $user_id, $trackGenre, $trackDate]);
+                $query = $this->db->prepare("INSERT INTO `tracks`(`name`, `user_id`, `genre_id`, `date`, `photo`, `photo_dir`) VALUES (?, ?, ?, ?, ?, ?)"); 
+                $query->execute([$trackName, $user_id, $trackGenre, $trackDate, $photo, $photo_dir]);
             } catch(PDOException $e) {
                 echo $query . "<br>" . $e->getMessage();
             }  

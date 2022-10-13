@@ -13,4 +13,18 @@
             
             return $genres;
         }
+
+        public function editGenre($id, $genre) {
+            try {
+                $query = $this->db->prepare("UPDATE `genres` SET `genre` = ? WHERE `genres`.`id` = ?"); 
+                $query->execute(array($genre, $id));
+
+            } catch(PDOException $e) {
+                echo $query . "<br>" . $e->getMessage();
+            }  
+        }
+
+        public function deleteGenre($id) {
+
+        }
     }

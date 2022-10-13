@@ -5,7 +5,9 @@
                 <p><a href='about/{$track->userName}'>{$track->userName}</a></p>
                 <p>{$track->name}</p>
             </div>
-            <img src="images/file.png" class="filePhoto hidden">
+            
+                {if $track->photo_dir!=null}<div class="filePhoto hidden"><img src="{$track->photo_dir}"></img></div>{else}<span></span>{/if}
+            
             <div class="fileInfo hidden">
                 {if $smarty.session.loggedin==true && $track->userName==$smarty.session.name}
                     <form action="editFile/{$track->id}" method="post">
@@ -14,19 +16,19 @@
                             <label for="name">Track name:</label>
                                 <input type="text" name="name" value="{$track->name}" required></input><br>
                             <label for="genre">Genre:</label>
-                                <select name="genre" value="{$track->genre}" required>
+                                <select name="genre" required>
                                     {foreach from=$genres item=$genre}
-                                        <option value="{$genre->id}">{$genre->genre}</option>
+                                        <option value="{$genre->id}" {if $track->genre_id==$genre->id}selected{/if}>{$genre->genre}</option>
                                     {/foreach}
                                 </select><br>
                             <label for="date">Date:</label>
-                                <input type="date" name="date" value="{$track->date}"></input><br> 
+                                <input type="date" name="date" {if $track->date}value="{$track->date}"{/if}></input><br> 
                         </div>   
                         <a class="deleteFile" href="deleteFile/{$track->id}/" title="Delete track">del</a>                    
                     </form>                    
                 {else}
                     <p>{$track->name}</p>
-                    <p>Genre: {$track->genre}</p>
+                    <p>Genre: <a href="genres/{$track->genre}/">{$track->genre}</a></p>
                     <p>Date: {$track->date}</p>
                 {/if}
             </div>

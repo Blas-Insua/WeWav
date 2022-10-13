@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.2.1, created on 2022-10-10 06:55:42
+/* Smarty version 4.2.1, created on 2022-10-13 13:45:00
   from 'D:\Programs\XAMPP\htdocs\WeWav\templates\tracks.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.2.1',
-  'unifunc' => 'content_6343a5ceaaa800_88229595',
+  'unifunc' => 'content_6347fa3c92be83_80555221',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '0b958b781316b0971ed19575ffc72e7eba797d7b' => 
     array (
       0 => 'D:\\Programs\\XAMPP\\htdocs\\WeWav\\templates\\tracks.tpl',
-      1 => 1665377705,
+      1 => 1665661497,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_6343a5ceaaa800_88229595 (Smarty_Internal_Template $_smarty_tpl) {
+function content_6347fa3c92be83_80555221 (Smarty_Internal_Template $_smarty_tpl) {
 ?><div id="tracksList">
     <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['tracks']->value, 'track');
@@ -36,7 +36,10 @@ $_smarty_tpl->tpl_vars['track']->do_else = false;
                 <p><?php echo $_smarty_tpl->tpl_vars['track']->value->name;?>
 </p>
             </div>
-            <img src="images/file.png" class="filePhoto hidden">
+            
+                <?php if ($_smarty_tpl->tpl_vars['track']->value->photo_dir != null) {?><div class="filePhoto hidden"><img src="<?php echo $_smarty_tpl->tpl_vars['track']->value->photo_dir;?>
+"></img></div><?php } else { ?><span></span><?php }?>
+            
             <div class="fileInfo hidden">
                 <?php if ($_SESSION['loggedin'] == true && $_smarty_tpl->tpl_vars['track']->value->userName == $_SESSION['name']) {?>
                     <form action="editFile/<?php echo $_smarty_tpl->tpl_vars['track']->value->id;?>
@@ -47,8 +50,7 @@ $_smarty_tpl->tpl_vars['track']->do_else = false;
                                 <input type="text" name="name" value="<?php echo $_smarty_tpl->tpl_vars['track']->value->name;?>
 " required></input><br>
                             <label for="genre">Genre:</label>
-                                <select name="genre" value="<?php echo $_smarty_tpl->tpl_vars['track']->value->genre;?>
-" required>
+                                <select name="genre" required>
                                     <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['genres']->value, 'genre');
 $_smarty_tpl->tpl_vars['genre']->do_else = true;
@@ -56,15 +58,15 @@ if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['genre']->value) 
 $_smarty_tpl->tpl_vars['genre']->do_else = false;
 ?>
                                         <option value="<?php echo $_smarty_tpl->tpl_vars['genre']->value->id;?>
-"><?php echo $_smarty_tpl->tpl_vars['genre']->value->genre;?>
+" <?php if ($_smarty_tpl->tpl_vars['track']->value->genre_id == $_smarty_tpl->tpl_vars['genre']->value->id) {?>selected<?php }?>><?php echo $_smarty_tpl->tpl_vars['genre']->value->genre;?>
 </option>
                                     <?php
 }
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
                                 </select><br>
                             <label for="date">Date:</label>
-                                <input type="date" name="date" value="<?php echo $_smarty_tpl->tpl_vars['track']->value->date;?>
-"></input><br> 
+                                <input type="date" name="date" <?php if ($_smarty_tpl->tpl_vars['track']->value->date) {?>value="<?php echo $_smarty_tpl->tpl_vars['track']->value->date;?>
+"<?php }?>></input><br> 
                         </div>   
                         <a class="deleteFile" href="deleteFile/<?php echo $_smarty_tpl->tpl_vars['track']->value->id;?>
 /" title="Delete track">del</a>                    
@@ -72,8 +74,9 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
                 <?php } else { ?>
                     <p><?php echo $_smarty_tpl->tpl_vars['track']->value->name;?>
 </p>
-                    <p>Genre: <?php echo $_smarty_tpl->tpl_vars['track']->value->genre;?>
-</p>
+                    <p>Genre: <a href="genres/<?php echo $_smarty_tpl->tpl_vars['track']->value->genre;?>
+/"><?php echo $_smarty_tpl->tpl_vars['track']->value->genre;?>
+</a></p>
                     <p>Date: <?php echo $_smarty_tpl->tpl_vars['track']->value->date;?>
 </p>
                 <?php }?>

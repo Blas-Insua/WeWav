@@ -9,7 +9,10 @@
                 {/foreach}
             </select>
         </fieldset>
-        <fieldset><legend>Date of creation</legend><input type="date" id="uploadFileDate" name="uploadFileDate" required></fieldset>
+        <fieldset><legend>Date of creation</legend><input type="date" id="uploadFileDate" name="uploadFileDate"></fieldset>
+        <fieldset id="trackPhoto" for="trackPhoto"><legend>Photo</legend>
+            <input type="file" name="trackPhoto">
+        </fieldset> 
 
         <button class="yellowBox" id="uploadButton">Upload</button>
     </form>

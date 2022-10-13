@@ -39,8 +39,21 @@ class tracksController {
             $trackName = $_POST["uploadFileName"];
             $trackGenre = $_POST["uploadFileGenre"];
             $trackDate = $_POST["uploadFileDate"];
+            if ($_FILES) {   
+                if ($_FILES['trackPhoto']['type'] == "image/jpg" || $_FILES['trackPhoto']['type'] == "image/jpeg" || $_FILES['trackPhoto']['type'] == "image/png")  {
+                    $photo = $_FILES["trackPhoto"]["tmp_name"];   
+                    $photo_dir = "./images/tracks_photos/".uniqid("", true).".".strtolower(pathinfo($_FILES['trackPhoto']['name'], PATHINFO_EXTENSION));
+                    
+                    $this->model->uploadFile($user_id, $trackName, $trackGenre, $trackDate, $photo, $photo_dir);
+    
+                } else {
+                    $error = 'Sorry, only JPG, JPEG, PNG files are allowed to upload.';
+                }             
+            } else {
+                $this->model->uploadFile($user_id, $trackName, $trackGenre, $trackDate);
+            }
 
-            $this->model->uploadFile($user_id, $trackName, $trackGenre, $trackDate);
+            
 
             header("Location:".BASE_URL."about/".$_SESSION["name"]."/");
         } else {

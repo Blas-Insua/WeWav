@@ -56,127 +56,122 @@ class accountsController {
         }             
     } 
 
-    public function editProfile($profile) {
+    public function editProfile($profile, $request) {
         $account = $this->model->getAccount($profile); 
         $id = $account->id;
-        if (isset($_POST["password"])) {
-            $passwordParam = $_POST["password"];
+        if ($request=="owner") {            
+            if ($_FILES) {   
+                if ($_FILES['profilePhoto']['type'] == "image/jpg" || $_FILES['profilePhoto']['type'] == "image/jpeg" || $_FILES['profilePhoto']['type'] == "image/png")  {
+                    $photo = $_FILES["profilePhoto"]["tmp_name"];   
+                    $photo_dir = "./images/profile_photos/".uniqid("", true).".".strtolower(pathinfo($_FILES['profilePhoto']['name'], PATHINFO_EXTENSION));
+                    
+                    $this->model->editProfilePhoto($id, $photo, $photo_dir); 
+                    header("location:".BASE_URL."account/".$profile."/"); 
+                } else {
+                    $error = 'Sorry, only JPG, JPEG, PNG files are allowed to upload.';
+                }             
+            } else if($_POST["password"]) {
+                $passwordParam = $_POST["password"];
 
-            if(password_verify($passwordParam, $account->password)){
-                if (isset($_POST["passwordNew"])) {
-                    if (($_POST['passwordNew']==$_POST['passwordConfirm'])) {
-                        $password = password_hash($_POST['passwordNew'], PASSWORD_BCRYPT); 
-
-                        $this->model->editProfilePassword($id, $password);
-                        header("location:".BASE_URL."logout/"); 
-                        header("Refresh:0; url=".BASE_URL."login/"); 
-
-                    } else {
-                        require_once './app/models/countriesModel.php';
-                        $countriesModel = new countriesModel();
-                        $countries = $countriesModel->getCountries();
-
-                        require_once './app/models/genresModel.php';
-                        $genresModel = new genresModel();
-                        $genres = $genresModel->getGenres();
-
-                        $captcha = $this->appController->printCaptcha();
-                        $this->view->showProfileManager($account, $countries, $genres, "security", $captcha, "The passwords no match"); 
-                    }                       
-                }
-                if (!empty($_POST["file"])) {                
-                    $filename = $profile;
-                    $tempname = "temp";
-                    $target_dir  = "./images/profile_photos/";
-                    $target_file = $target_dir . basename($_POST["file"]);
-                    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+                if(password_verify($passwordParam, $account->password)){
+                    if (isset($_POST["passwordNew"])) {
+                        if (($_POST['passwordNew']==$_POST['passwordConfirm'])) {
+                            $password = password_hash($_POST['passwordNew'], PASSWORD_BCRYPT); 
     
-                    $extensions_arr  = array('jpg','png','jpeg');
-                    if(in_array($imageFileType, $extensions_arr)){
-                        
-                        if(move_uploaded_file($tempname, $target_dir.$filename)){
-                            // Convert to base64 
-                            $image_base64 = base64_encode(file_get_contents("./images/profile_photos/".$filename) );
-                            $image = 'data:image/'.$imageFileType.';base64,'.$image_base64;
-                            
-                            $this->model->editProfilePhoto($id, $image, $target_dir.$filename);
+                            $this->model->editProfilePassword($id, $password);
+                            header("location:".BASE_URL."logout/"); 
+                            header("Refresh:0; url=".BASE_URL."login/"); 
+    
                         } else {
-                            $error = "upload error";
-                            echo $error;
+                            require_once './app/models/countriesModel.php';
+                            $countriesModel = new countriesModel();
+                            $countries = $countriesModel->getCountries();
+    
+                            require_once './app/models/genresModel.php';
+                            $genresModel = new genresModel();
+                            $genres = $genresModel->getGenres();
+    
+                            $captcha = $this->appController->printCaptcha();
+                            $this->view->showProfileManager($account, $countries, $genres, "security", $captcha, "The passwords no match"); 
+                        }                       
+                    } else {                    
+                        if (!empty($_POST["name"])) {
+                            $nameParam = $_POST["name"];
+                            $accountExist = $this->model->getAccount($nameParam); 
+                            if ($accountExist && $accountExist->id!=$_SESSION["user_id"]) {
+                                $error = "This user name is already taken";                            
+                            } else {
+                                $name = $nameParam;
+                            }
+                        } else {
+                            $nameParam = $_SESSION["name"];
                         }
-                    }else{
-                        $error = 'Sorry, only JPG, JPEG, PNG files are allowed to upload.';
-                        echo $error;
-                    }  
-                } 
-
-
-                 else {                    
-                    if (!empty($_POST["name"])) {
-                        $nameParam = $_POST["name"];
-                        $accountExist = $this->model->getAccount($nameParam); 
-                        if ($accountExist) {
-                            $error = "This user name is already taken";                            
+                        if (!empty($_POST["AKA"])) {
+                            $AKAParam = $_POST["AKA"];
+                            $accountExist = $this->model->getAccount($AKAParam); 
+                            if ($accountExist && $accountExist->id!=$_SESSION["user_id"]) {
+                                $error = "This AKA is already taken";                            
+                            } else {
+                                $AKA = $AKAParam;
+                            }
                         } else {
+                            $AKAParam = $_SESSION["AKA"];
+                        }           
+                         
+                        if (!$error) {
                             $name = $nameParam;
-                        }
-                    } else {
-                        $nameParam = $_SESSION["name"];
-                    }
-                    if (!empty($_POST["AKA"])) {
-                        $AKAParam = $_POST["AKA"];
-                        $accountExist = $this->model->getAccount($AKAParam); 
-                        if ($accountExist) {
-                            $error = "This AKA is already taken";                            
-                        } else {
                             $AKA = $AKAParam;
-                        }
-                    } else {
-                        $AKAParam = $_SESSION["AKA"];
-                    }                    
-                     
-                    if (!$error) {
-                        $name = $nameParam;
-                        $AKA = $AKAParam;
-                        $genre = $_POST["genre"];
-                        $country = $_POST["country"];
-
-                        $this->model->editProfile($id, $name, $AKA, $genre, $country, $photo);
-                        header("location:".BASE_URL."logout/"); 
-                        header("Refresh:0; url=".BASE_URL."login/"); 
-                        
-                    } else {
-                        require_once './app/models/countriesModel.php';
-                        $countriesModel = new countriesModel();
-                        $countries = $countriesModel->getCountries();
-
-                        require_once './app/models/genresModel.php';
-                        $genresModel = new genresModel();
-                        $genres = $genresModel->getGenres();
-
-                        $captcha = $this->appController->printCaptcha();
-                        $this->view->showProfileManager($account, $countries, $genres, "general", $captcha, $error);
-                    }                                
-                };
-            } else {
-                require_once './app/models/countriesModel.php';
-                $countriesModel = new countriesModel();
-                $countries = $countriesModel->getCountries();
-
-                require_once './app/models/genresModel.php';
-                $genresModel = new genresModel();
-                $genres = $genresModel->getGenres();
-
-                $captcha = $this->appController->printCaptcha();
-                $error = "The password is incorrect";
-                $this->view->showProfileManager($account, $countries, $genres, "general", $captcha, $error); 
-            }
-        } else if (isset($_POST["user_rol"]) && ($_SESSION["rol"]==0 || $_SESSION["rol"]==1)) {
+                            $genre = $_POST["genre"];
+                            $country = $_POST["country"];
+    
+                            $this->model->editProfile($id, $name, $AKA, $genre, $country);
+                            header("location:".BASE_URL."logout/"); 
+                            header("Refresh:0; url=".BASE_URL."login/"); 
+                            
+                        } else {
+                            require_once './app/models/countriesModel.php';
+                            $countriesModel = new countriesModel();
+                            $countries = $countriesModel->getCountries();
+    
+                            require_once './app/models/genresModel.php';
+                            $genresModel = new genresModel();
+                            $genres = $genresModel->getGenres();
+    
+                            $captcha = $this->appController->printCaptcha();
+                            $this->view->showProfileManager($account, $countries, $genres, "general", $captcha, $error);
+                        }                                
+                    };
+                } else {
+                    require_once './app/models/countriesModel.php';
+                    $countriesModel = new countriesModel();
+                    $countries = $countriesModel->getCountries();
+    
+                    require_once './app/models/genresModel.php';
+                    $genresModel = new genresModel();
+                    $genres = $genresModel->getGenres();
+    
+                    $captcha = $this->appController->printCaptcha();
+                    $error = "The password is incorrect";
+                    $this->view->showProfileManager($account, $countries, $genres, "general", $captcha, $error); 
+                }
+            }                        
+        } else if ($request=="admin" && (isset($_POST["user_rol"]) && ($_SESSION["rol"]==0 || $_SESSION["rol"]==1))) {
             $rol = $_POST["user_rol"];
             $this->model->editProfileRol($id, $rol);
             header("Location:".$_SERVER["HTTP_REFERER"]);
         } else {
             header("location:".BASE_URL);
+        }
+    }
+
+    public function deleteProfilePhoto($profile) {
+        if ($profile==$_SESSION["name"]) {
+            $account = $this->model->getAccount($profile); 
+            $id = $account->id;
+            $this->model->deleteProfilePhoto($id); 
+            header("location:".BASE_URL."account/".$profile."/"); 
+        } else {
+            header("location:".BASE_URL); 
         }
     }
 

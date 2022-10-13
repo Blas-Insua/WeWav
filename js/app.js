@@ -39,7 +39,9 @@ window.onload = () => {
     
 
     document.querySelectorAll(".fileTitle").forEach(file => {
+        
         file.addEventListener("click", (e) => {
+            console.log(e.path[2].children);
             e.path[2].children[1].classList.toggle("hidden");
             e.path[2].children[2].classList.toggle("hidden");
             e.path[2].children[0].children[1].classList.toggle("hidden");
@@ -53,8 +55,10 @@ window.onload = () => {
         let errorDIV = window["errorDIV"];
         errorDIV.scrollIntoView({behavior:"smooth"});
         errorDIV.classList.add("active"); 
-        setTimeout(() => {
-            errorDIV.classList.remove("active"); 
-        }, 500);
+        setInterval(() => {
+            errorDIV.classList.toggle("active"); 
+            
+        }, 1500); 
+
     };
 };

@@ -14,7 +14,7 @@
             <div id='nav1'>
                 <a id="PageLogo" class="logo" href="home/">WeWav</a>                  
                 <div id='menu'> 
-                    {if $smarty.session.rol != 3}<p>{$smarty.session.name}</p>{/if}
+                    {if $smarty.session.rol != 3}<p>{$smarty.session.name}<span class="userLogo"><img src="{if $photo_dir!=null}{$photo_dir}{else}./images/profile_photos/default.png{/if}"></img></span></p>{/if}
                     <button class="menuBtn" id="menuBtn">
                         <span class="menuline"></span>
                         <span class="menuline"></span>
@@ -46,7 +46,7 @@
                 <a id="artists" href="artists/" class="navRoute">Artists</a>
                 <a id="tracks" href="tracks/" class="navRoute">Tracks</a>
                 <a id="genres" href="genres/" class="navRoute">Genres</a>
-                {if $rol != 3}<a id="upload" href="upload/" class="navRoute">Upload</a>{/if}                   
+                {if $smarty.session.rol != 3}<a id="upload" href="upload/" class="navRoute">Upload</a>{/if}                   
             </div>
         </nav>        
     </header>

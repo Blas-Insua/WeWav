@@ -41,7 +41,7 @@
                 </thead>
                 <tbody>
                     {foreach from=$accounts item=$profile}
-                        <form id="profile_{$profile->name}" action="editProfile/{$profile->name}" method="post"></form>
+                        <form id="profile_{$profile->name}" action="editProfile/{$profile->name}/admin" method="post"></form>
                         <tr>
                             <td><input type="submit" form="profile_{$profile->name}" class="editFile" title="Edit profile"></input></td>
                             <td>
@@ -77,29 +77,20 @@
                 <button type="submit" class="yellowBox">Create</button>
             </fieldset>
         </form>
-        <form action="editGenre/" method="post">
-            <table id="genresManagement">
-                <caption>Management > genres</caption>
-                <thead>
-                    <tr>
-                        <th>Edit</th>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {foreach from=$genres item=$genre}
-                        <tr>
-                            <td><button class="editFile" href="editGenre/{$genre->id}/" title="Edit genre">edit</but></td>
-                            <td>{$genre->id}</td>
-                            <td><input type="text" value="{$genre->genre}"></td>
-                            <td><a class="deleteFile" href="deleteGenre/{$genre->id}/" title="Delete genre">del</a></td>
-                        </tr>
-                    {/foreach}
-                </tbody>
-            </table>
-        </form>
+        <p>Management > genres</p>
+        <div id="genresManagement">
+            <p><span>Edit</span><span>ID</span><span>Name</span><span>Delete</span></p>
+            <div class="genres">
+                {foreach from=$genres item=$genre}
+                    <form action="editGenre/{$genre->id}/" method="post">
+                        <input type="submit" class="editFile" title="Edit genre"></input>
+                        <p>{$genre->id}</p>
+                        <input type="text" name="genre" placeholder="{$genre->genre}">
+                        <a class="deleteFile" href="deleteGenre/{$genre->id}/" title="Delete genre">del</a>
+                    </form>
+                {/foreach}
+            </div>
+        </div>
     {/if}
 </div>
 

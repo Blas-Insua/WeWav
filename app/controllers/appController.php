@@ -12,10 +12,15 @@ class appController {
     public function printHeader() {
         session_start();
         if (!isset($_SESSION["name"])) {
-            $_SESSION["loggedin"] =false;
+            $_SESSION["loggedin"] = false;
             $_SESSION["rol"] = 3;
-        };
-        $this->appView->showHeader($_SESSION["rol"]);
+            $this->appView->showHeader();
+        } else {
+            require_once './app/models/accountsModel.php';
+            $accountsModel = new accountsModel;
+            $account = $accountsModel->getAccount($_SESSION["name"]);
+            $this->appView->showHeader($account);
+        };        
     }
 
     public function printFooter() {

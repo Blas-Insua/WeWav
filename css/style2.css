@@ -64,6 +64,22 @@ nav {
     color: rgb(33, 33, 33);
     font-size: larger;
     user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.userLogo {
+    display: flex;
+    align-items: center;
+}
+
+.userLogo img {
+    margin: auto;
+    width: 35px;
+    height: 35px;
+    border-radius: 35px;
+    background-color: rgb(33, 33, 33);    
 }
 
 #menuBar {
@@ -174,10 +190,6 @@ footer p {
     padding: 10px;
 }
 
-.userLogo {
-    border-radius: 50px;
-}
-
 /* management */
 
 #sysManagement {
@@ -185,7 +197,21 @@ footer p {
     flex-direction: column;
 }
 
+#sysManagement p{
+    margin: auto;
+}
+
 #newGenre {
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+#newGenre fieldset button.yellowBox {
+    padding-left: 25px; 
+    padding-right: 25px; 
+    padding-top: 5px; 
+    padding-bottom: 5px;
+    font-size: large;
     margin: auto;
 }
 
@@ -196,7 +222,7 @@ footer p {
     width: 98%;
 }
 
-#tracksManagement tr, #accountsManagement tr, #genresManagement tr{
+#tracksManagement tr, #accountsManagement tr{
     height: 50px;
 }
 
@@ -205,10 +231,46 @@ footer p {
 }
 
 #genresManagement {
-    width: 33%;
+    width: auto;    
+    display: grid;
+    justify-content: center;
+    grid-template-areas: 
+                    "titles"
+                    "genres";
 }
 
-#tracksManagement, #tracksManagement th, #tracksManagement td, #accountsManagement, #accountsManagement th, #accountsManagement td, #genresManagement, #genresManagement th, #genresManagement td {
+#genresManagement p:nth-child(1){
+    display: grid;
+    grid-template-columns: 1fr 0.5fr 4fr 1fr;
+    grid-area: titles;
+    width: 300px;
+    border: 1px solid aliceblue;
+    margin: auto;
+}
+
+#genresManagement .genres{
+    grid-area: genres;
+}
+#genresManagement .genres form{
+    display: flex;
+    gap: 0px;
+    justify-content: center;
+    margin: auto;
+    width: 300px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-left: 1px solid aliceblue;
+    border-right: 1px solid aliceblue;
+    border-bottom: 1px solid aliceblue;
+}
+#genresManagement .genres form p{
+    margin: auto 10px;
+}
+#genresManagement .genres form input, #genresManagement .genres form a{
+    margin: auto;
+}
+
+#tracksManagement, #tracksManagement th, #tracksManagement td, #accountsManagement, #accountsManagement th, #accountsManagement td{
     border: 1px solid aliceblue;
     border-collapse: collapse;
 }
@@ -246,19 +308,23 @@ caption {
 }
 
 .userCard div {
-    display: flex;
     width: 100%;
-    position: relative;
 }
 
-.userCard div details, .userCard div details::after {
-    position: absolute;
+.userCard div details summary {    
+    float: right;    
+    background-image: url(images/editProfilePhotoButton.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 50%;
 }
 
-.userCard img {
-    margin: auto 5px auto 5px;
-    width: 80%;
-    height: auto;
+.userCard .userLogo img {
+    margin-right: 25px;
+    width: 100px;
+    height: 100px;
+    border-radius: 100px;
+    background-color: rgb(33, 33, 33);    
 }
 
 .userCard ul {
@@ -325,11 +391,11 @@ caption {
     box-shadow: 0px 0px 15px 10px rgba(0,0,0,0.2) inset;
 }
 
-#accountManager ul li:nth-child(1) {
+#accountManager ul li:first-child {
     border-radius: 10px 0px 0px 0px;
 }
 
-#accountManager ul li:nth-child(3) {
+#accountManager ul li:last-child {
     border-radius: 0px 0px 0px 10px;
 }
 
@@ -366,11 +432,13 @@ caption {
     grid-template-areas: 
       "name aka"
       "genre country"
-      "pass photo"
+      "pass pass"
       "reset reset"
+      "error error"
       "submit submit"; 
     
 }
+
 .signup-form #profileForm {
     grid-template-columns: 1fr 1fr; 
     grid-template-areas: 
@@ -378,15 +446,19 @@ caption {
       "pass passConfirm"
       "genre country"
       "photo reset"
+      "error error"
       "submit submit"; 
 }
+
 .login-form #profileForm {
     grid-template-columns: 1fr;  
     grid-template-areas: 
       "name"
       "pass"
+      "error"
       "submit"; 
 }
+
 #accountManager .formContainer form.editProfileSecurity{
     margin: auto;
     grid-template-columns: 1fr; 
@@ -394,9 +466,16 @@ caption {
       "pass"
       "passNew"
       "passConfirm"
+      "error"
       "submit"; 
 }
+
 #accountManager .formContainer form.editProfileDelete{
+    display: flex;
+    margin: auto;
+}
+
+#accountManager .formContainer form.editProfilePhoto{
     display: flex;
     margin: auto;
 }
@@ -409,6 +488,7 @@ form fieldset#AKA{
 }
 form fieldset#password{
     grid-area: pass;
+    margin: auto;
 }
 form fieldset#passwordNew{
     grid-area: passNew;
@@ -423,12 +503,22 @@ form fieldset#genre{
     grid-area: genre;
 }
 fieldset#userPhoto{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     grid-area: photo;
+}
+
+fieldset#userPhoto a{
+    margin: auto;
+    margin-top: 10px;
+    text-align: center;
+    width: 45%;
+    background-color: rgb(236, 60, 60);
+    color: black;
 }
 .formContainer input#reset{
     grid-area: reset;
-    margin: auto;
-    margin-top: 5px;
     padding: 10px;
     padding-left: 40px;
     padding-right: 40px;
@@ -436,6 +526,7 @@ fieldset#userPhoto{
 }
 
 div#errorDIV{
+    grid-area: error;
     height: min-content;
 }
 
@@ -452,6 +543,7 @@ div#errorDIV{
     width: 100%;
 }
 
+
 /* tracks */
 
 .file {
@@ -463,7 +555,8 @@ div#errorDIV{
 	color: black;
 	margin: 10px auto 10px auto;
 	border-radius: 20px;
-    width: min-content;
+    max-width: 25%;
+    align-items: center
 }
 
 .fileTitle {
@@ -475,11 +568,20 @@ div#errorDIV{
     color: black;
 }
 
-.file img {
-	margin: auto;
-	height: 95%;
-	width: 95%;
-	padding-top: 10px;
+.filePhoto {
+    display: grid;
+    align-content: center;
+    height: auto;
+    max-height: 300px;
+    width: 300px;
+	margin: auto;   
+	margin-top: 10px;
+    background-color: rgb(11, 11, 11);
+}
+
+.filePhoto img {
+    height: auto;
+    width: 100%;
 }
 
 .file p {
@@ -512,8 +614,10 @@ a.deleteFile {
     font-size: 22.2px;
     min-width: 30px;
     min-height: 30px;
+    width: 30px;
+    height: 30px;
 	color:rgba(255, 255, 255, 0);
-    background-color: rgb(242, 230, 33);	
+    background-color: rgb(236, 60, 60);	
 	background-image: url("../images/deleteButton.png");
 	background-position: center;
     background-size: 70%;
@@ -599,8 +703,6 @@ td a.deleteFile, td input.editFile {
 
 /* home */
 
-
-
 #userStories {
     display: flex;
     overflow-x: scroll;
@@ -611,7 +713,6 @@ td a.deleteFile, td input.editFile {
     max-width: 100%;
     margin-top: -10px;
     padding-bottom: 10px;
-    gap: 10px;
 }
 
 #userStories::-webkit-scrollbar {
@@ -627,9 +728,10 @@ td a.deleteFile, td input.editFile {
     background: rgb(33, 33, 33); 
 }
 
-#userStories .userLogo{ 
+#userStories img{ 
     width: 40px;
     height: 40px;
+    margin-right: 15px;
     scroll-snap-align: start;
 }
 
@@ -652,7 +754,7 @@ td a.deleteFile, td input.editFile {
 .captcha {
     display: flex;
     width:min-content;
-    margin: auto;
+    margin: 5px auto;
 }
 
 #captcha {
@@ -690,6 +792,7 @@ td a.deleteFile, td input.editFile {
 
 .yellowBox {
     margin: auto;
+    margin-top: 10px;
     padding-left: 45px;
     padding-right: 45px;
     padding-top: 15px;
@@ -702,13 +805,17 @@ td a.deleteFile, td input.editFile {
 
 #errorDIV {
     text-align: center;
-    margin: 2px auto 2px auto;
+    padding-left: 25px;
+    padding-right: 25px;
+    margin: 5px auto;
 }
+
 #errorDIV.active {
-    background-color: rgb(255, 80, 80);
+    background-color: rgb(236, 60, 60);
     color: black;
-    border: 1px solid red;
     border-radius: 10px;
+    max-width: 200px;
+    
 }
 
 /* tablet */
