@@ -48,6 +48,10 @@ switch ($params[0]) {
         $accountsController->printAccountsStories();
         $tracksController->printTracks();
         break;
+    case 'search':
+        $appController = new appController();
+        $appController->search($params[1]);
+        break;
     case 'artists':
         $accountsController = new accountsController();
         $accountsController->printAccounts();

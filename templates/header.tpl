@@ -12,7 +12,13 @@
 	<header>
         <nav>   
             <div id='nav1'>
-                <a id="PageLogo" class="logo" href="home/">WeWav</a>                  
+                <a id="PageLogo" class="logo" href="home/">WeWav</a>  
+                <div id="search">
+                    <form action="search/" method="get">
+                        <input name="q" type="text" placeholder="Search for artists, tracks or genres...">
+                        <button></button>
+                    </form>
+                </div>                
                 <div id='menu'> 
                     {if $smarty.session.rol != 3}<p>{$smarty.session.name}<span class="userLogo"><img src="{if $photo_dir!=null}{$photo_dir}{else}./images/profile_photos/default.png{/if}"></img></span></p>{/if}
                     <button class="menuBtn" id="menuBtn">

@@ -31,6 +31,30 @@
             return $account;
         }
 
+        public function searchAccounts($profile) {
+            $nameQuery = $this->db->prepare("SELECT a.*, g.genre, c.country, r.rol
+                                        FROM accounts a 
+                                        INNER JOIN genres g ON g.id = a.genre_id
+                                        INNER JOIN countries c ON c.id = a.country_id
+                                        INNER JOIN roles r ON r.id = a.rol_id
+                                        WHERE a.name LIKE ?");
+                                        
+            $nameQuery->execute([$profile."%"]);
+            $akaQuery = $this->db->prepare("SELECT a.*, g.genre, c.country, r.rol
+                                        FROM accounts a 
+                                        INNER JOIN genres g ON g.id = a.genre_id
+                                        INNER JOIN countries c ON c.id = a.country_id
+                                        INNER JOIN roles r ON r.id = a.rol_id
+                                        WHERE a.AKA LIKE ?");
+
+            $res = $nameQuery->fetchAll(PDO::FETCH_OBJ);
+            foreach ($akaQuery->fetchAll(PDO::FETCH_OBJ) as $key) {
+                array_push($res, $key);
+            };   
+
+            return $res;
+        }
+
         public function getRoles() {
             $query = $this->db->prepare("SELECT * FROM roles WHERE id>0");
             $query->execute();

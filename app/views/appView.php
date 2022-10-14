@@ -17,5 +17,14 @@
 
         public function showFooter() {
             $this->smarty->display('footer.tpl');
-        }        
+        }     
+        
+        public function showSearch($search = null) {
+            if ($search != null) {
+                $this->smarty->assign('search', $search);    
+                $this->smarty->display('search.tpl');
+            } else {
+                $this->smarty->display('search.tpl');
+            }
+        }
     }

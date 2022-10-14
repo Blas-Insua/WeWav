@@ -15,6 +15,11 @@ a, a:visited {
     text-decoration: none;
 }
 
+main.search {
+    display: flex;
+    justify-content: space-evenly;
+}
+
 /* header */
 
 nav {
@@ -35,7 +40,7 @@ nav {
     z-index: 10;
     grid-area: nav1;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3),
         inset 0px -10px 20px rgba(0, 0, 0, 0.2);
 }
@@ -48,6 +53,37 @@ nav {
     padding-left: 15px;
     padding-right: 15px;
     width: min-content;
+}
+
+#search {
+    margin: auto;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+#search form{
+    width: max-content;
+    height: auto;
+    min-height: 33px;
+    display: flex;    
+}
+#search input{
+    width: 333px;
+    padding-left: 25px;
+    border: 0px;
+    border-radius: 10px 0px 0px 10px;
+}
+#search form button{
+    width: 33px;
+    font-size: x-large;
+    background-image: url("../images/searchButton.png");
+    background-size: 66%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: rgb(99, 99, 99);
+    border: 0px;
+    border-radius: 0px 10px 10px 0px;
+    color: transparent;
 }
 
 #menu {
@@ -79,7 +115,7 @@ nav {
     width: 35px;
     height: 35px;
     border-radius: 35px;
-    background-color: rgb(33, 33, 33);    
+    background-color: rgb(11, 11, 11);    
 }
 
 #menuBar {
@@ -551,17 +587,24 @@ div#errorDIV{
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-	background-color: aliceblue;
+    background-color: whitesmoke;
 	color: black;
 	margin: 10px auto 10px auto;
-	border-radius: 20px;
-    max-width: 25%;
+	border-radius: 25px;
+    width: 333px;
     align-items: center
 }
 
+.file audio {
+    width: 100%;
+}
+
 .fileTitle {
+    border-radius: 25px 25px 0px 0px;
+    background-color: whitesmoke;
     width: 100%;
     text-align: center;
+    font-size: larger;
 }
 
 .file a {
@@ -569,19 +612,20 @@ div#errorDIV{
 }
 
 .filePhoto {
-    display: grid;
-    align-content: center;
+    display: flex;
+    justify-content: center;
     height: auto;
     max-height: 300px;
     width: 300px;
-	margin: auto;   
-	margin-top: 10px;
-    background-color: rgb(11, 11, 11);
 }
 
 .filePhoto img {
     height: auto;
     width: 100%;
+    padding-left: 10px;
+	padding-right: 10px;
+    background-color: rgb(11, 11, 11);
+    border-radius: 5px;
 }
 
 .file p {
@@ -589,6 +633,7 @@ div#errorDIV{
 }
 
 .fileInfo {
+    background-color: whitesmoke;
     margin: auto;
 }
 

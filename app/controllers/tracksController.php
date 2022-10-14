@@ -12,12 +12,8 @@ class tracksController {
     }
 
     public function printTracks() {
-        require_once './app/models/genresModel.php';
-        $genresModel = new genresModel();
-        $genres = $genresModel->getGenres();
-
         $tracks = $this->model->getTracks();
-        $this->view->showTracks($tracks, $genres);
+        $this->view->showTracks($tracks);
     }
 
     public function printUploadSection() {

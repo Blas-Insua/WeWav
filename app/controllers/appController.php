@@ -6,7 +6,7 @@ class appController {
     private $view;
 
     public function __construct() {
-        $this->appView = new appView();        
+        $this->view = new appView();        
     }
 
     public function printHeader() {
@@ -14,17 +14,17 @@ class appController {
         if (!isset($_SESSION["name"])) {
             $_SESSION["loggedin"] = false;
             $_SESSION["rol"] = 3;
-            $this->appView->showHeader();
+            $this->view->showHeader();
         } else {
             require_once './app/models/accountsModel.php';
             $accountsModel = new accountsModel;
             $account = $accountsModel->getAccount($_SESSION["name"]);
-            $this->appView->showHeader($account);
+            $this->view->showHeader($account);
         };        
     }
 
     public function printFooter() {
-        $this->appView->showFooter($_SESSION["rol"]);
+        $this->view->showFooter($_SESSION["rol"]);
     }
 
     public function printCaptcha() {   
@@ -53,13 +53,38 @@ class appController {
             $accountsModel = new accountsModel();
             $accounts = $accountsModel->getAllAccounts();
             $roles = $accountsModel->getRoles();
-            
 
             require_once './app/views/adminView.php';
-            $this->view = new adminView();
-            $this->view->showSystemManagement($tracks, $genres, $accounts, $roles, $management); 
+            $this->adminView = new adminView();
+            $this->adminView->showSystemManagement($tracks, $genres, $accounts, $roles, $management); 
         } else {
             header("location:".BASE_URL);
+        }
+    }
+
+    public function search($search) {
+        $search = $_GET["q"];
+        require_once './app/models/tracksModel.php';
+        $tracksModel = new tracksModel();
+        $tracks = $tracksModel->searchTracks($search);
+
+        require_once './app/models/accountsModel.php';
+        $accountsModel = new accountsModel();
+        $accounts = $accountsModel->searchAccounts($search);   
+        
+        if (!$tracks && !$accounts) {
+            $this->view->showSearch($search); 
+        }
+        
+        if($tracks) {
+            require_once './app/views/tracksView.php';
+            $tracksView = new tracksView();
+            $tracksView->showTracks($tracks); 
+        }
+        if($accounts) {
+            require_once './app/views/accountsView.php';
+            $accountsView = new accountsView();
+            $accountsView->showAccounts($accounts); 
         }
     }
 }

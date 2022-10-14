@@ -33,6 +33,11 @@ window.onload = () => {
         window["upload"].classList.add("active");
     };   
 
+    if (window.location.pathname == "/WeWav/search/") {
+        document.title = "WeWav/search";   
+        document.querySelector("main").classList.add("search");
+    };   
+
     if ((window.location.pathname == "/WeWav/login/") || (window.location.pathname == "/WeWav/loginSubmit/")) {
         document.title = "WeWav/login";   
     }; 

@@ -8,12 +8,16 @@
             $this->smarty = new Smarty();
         }
     
-        public function showTracks($tracks, $genres) {
+        public function showTracks($tracks) {
             if ($_SESSION["rol"] != 3) {
                 $this->smarty->assign('session', $_SESSION); 
             } else {
                 $this->smarty->assign('session', null); 
             }
+            require_once './app/models/genresModel.php';
+            $genresModel = new genresModel();
+            $genres = $genresModel->getGenres();
+
             $this->smarty->assign('genres', $genres);  
             $this->smarty->assign('tracks', $tracks);    
             $this->smarty->display('tracks.tpl');

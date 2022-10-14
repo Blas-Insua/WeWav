@@ -132,7 +132,7 @@ input.reCaptcha {
     width: 45px;
     height: 45px;
     border-radius: 50px;
-    background-image: url("../images/reloadButton.png");
+    background-image: url("./images/reloadButton.png");
     background-position: center;
     background-size: 85%;
     background-repeat: no-repeat;

@@ -10,7 +10,7 @@
             $query = $this->db->prepare("SELECT t.*, a.name as userName, g.genre
                                         FROM tracks t
                                         INNER JOIN accounts a ON a.id = t.user_id
-                                        INNER JOIN genres g ON g.id = t.genre_id");
+                                        INNER JOIN genres g ON g.id = t.genre_id ORDER BY t.id DESC");
             $query->execute();
             $tracks = $query->fetchAll(PDO::FETCH_OBJ); 
             
@@ -27,6 +27,37 @@
             $tracks = $query->fetchAll(PDO::FETCH_OBJ); 
             
             return $tracks;
+        }
+
+        public function searchTracks($filter) {
+            $nameQuery = $this->db->prepare("SELECT t.*, a.name as userName, g.genre
+                                        FROM tracks t
+                                        INNER JOIN accounts a ON a.id = t.user_id
+                                        INNER JOIN genres g ON g.id = t.genre_id
+                                        WHERE t.name LIKE ?");
+            $nameQuery->execute([$filter."%"]);
+            $genreQuery = $this->db->prepare("SELECT t.*, a.name as userName, g.genre
+                                        FROM tracks t
+                                        INNER JOIN accounts a ON a.id = t.user_id
+                                        INNER JOIN genres g ON g.id = t.genre_id
+                                        WHERE g.genre LIKE ?");
+            $genreQuery->execute([$filter."%"]);
+            $artistQuery = $this->db->prepare("SELECT t.*, a.name as userName, g.genre
+                                        FROM tracks t
+                                        INNER JOIN accounts a ON a.id = t.user_id
+                                        INNER JOIN genres g ON g.id = t.genre_id
+                                        WHERE a.name LIKE ?");
+            $artistQuery->execute([$filter."%"]);
+
+            $res = $nameQuery->fetchAll(PDO::FETCH_OBJ);
+            foreach ($genreQuery->fetchAll(PDO::FETCH_OBJ) as $key) {
+                array_push($res, $key);
+            };   
+            foreach ($artistQuery->fetchAll(PDO::FETCH_OBJ) as $key) {
+                array_push($res, $key);
+            };   
+
+            return $res;
         }
 
         public function getFile($id) {
