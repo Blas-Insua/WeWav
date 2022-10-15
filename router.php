@@ -1,5 +1,6 @@
 <?php
 
+require_once "app/controllers/appController.php";
 require_once "app/controllers/authController.php";
 require_once "app/controllers/accountsController.php";
 require_once "app/controllers/tracksController.php";
@@ -14,54 +15,46 @@ if (!empty($_GET['action'])) {
 
 $params = explode('/', $action); 
 
-require_once "app/controllers/appController.php";
+
 $appController = new appController();
+$authController = new authController();
+$accountsController = new accountsController();
+$tracksController = new tracksController();
+$genresController = new genresController();
 $appController->printHeader();
     
 switch ($params[0]) {
-    case 'signup':
-        $authController = new authController();
+    case 'signup':        
         $authController->printSignupForm();
         break;     
-    case 'login':
-        $authController = new authController();
+    case 'login':        
         $authController->printLoginForm();
         break;        
-    case 'signupSubmit':
-        $authController = new authController();
+    case 'signupSubmit':        
         $authController->signup();
         break;
-    case 'loginSubmit':
-        $authController = new authController();
+    case 'loginSubmit':        
         $authController->login();
         break;
-    case 'logout':
-        $authController = new authController();
+    case 'logout':        
         $authController->logout();
     case 'management':
         $appController->printSystemManagement($params[1]);      
         break;
     case 'home':
-        $accountsController = new accountsController();
-        $tracksController = new tracksController();
-
         $accountsController->printAccountsStories();
         $tracksController->printTracks();
         break;
     case 'search':
-        $appController = new appController();
         $appController->search($params[1]);
         break;
     case 'artists':
-        $accountsController = new accountsController();
         $accountsController->printAccounts();
         break;
     case 'about':
-        $accountsController = new accountsController();
         $accountsController->printAbout($params[1]);
         break;
     case 'account':
-        $accountsController = new accountsController();
         if ($params[2] && $params[2]=="settings") {        
             switch ($params[3]) {
                 case 'general':
@@ -89,48 +82,37 @@ switch ($params[0]) {
         }     
         break;
     case 'editProfile':
-        $accountsController = new accountsController();
         $accountsController->editProfile($params[1], $params[2]);        
         break;
     case 'deleteProfile':
-        $accountsController = new accountsController();
         $accountsController->deleteProfile($params[1]);        
         break;
     case 'tracks':
-        $tracksController = new tracksController();
         $tracksController->printTracks();
         break;
     case 'upload':
-        $tracksController = new tracksController();
         $tracksController->printUploadSection();
         break;
     case 'uploadFile':
-        $tracksController = new tracksController();
         $tracksController->uploadFile();
         break;
     case 'editFile':
-        $tracksController = new tracksController();
         $tracksController->editFile($params[1]);
         break;
     case 'deleteFile':
-        $tracksController = new tracksController();
         $tracksController->deleteFile($params[1]);        
         break;
     case 'genres':
         if ($params[1]) {
-            $tracksController = new tracksController();
             $tracksController->printTracksByGenre($params[1]);
         } else {
-            $genresController = new genresController();
             $genresController->printGenres();
         }
         break;
     case 'editGenre':
-        $genresController = new genresController();
         $genresController->editGenre($params[1]);
         break;
-    case 'deleteGenre':
-        $genresController = new genresController();
+    case 'deleteGenre':        
         $genresController->deleteGenre($params[1]);
         break;
     default:

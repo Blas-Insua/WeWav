@@ -1,13 +1,16 @@
 <?php
 require_once './app/models/tracksModel.php';
+require_once './app/models/genresModel.php';
 require_once './app/views/tracksView.php';
 
 class tracksController {
     private $model;
+    private $genresModel;
     private $view;
 
     public function __construct() {
         $this->model = new tracksModel();
+        $this->genresModel = new genresModel();
         $this->view = new tracksView();
     }
 
@@ -18,10 +21,7 @@ class tracksController {
 
     public function printUploadSection() {
         if ($_SESSION["rol"]!=3) {
-            require_once './app/models/genresModel.php';
-            $genresModel = new genresModel();
-            $genres = $genresModel->getGenres();
-
+            $genres = $this->genresModel->getGenres();
             $this->view->showUploadSection($genres);
         } else {
             header("location:".BASE_URL."login/");
@@ -48,9 +48,6 @@ class tracksController {
             } else {
                 $this->model->uploadFile($user_id, $trackName, $trackGenre, $trackDate);
             }
-
-            
-
             header("Location:".BASE_URL."about/".$_SESSION["name"]."/");
         } else {
             header("Location:".BASE_URL."login/");
@@ -77,14 +74,13 @@ class tracksController {
         session_start();
         if (isset($_SESSION["loggedin"]) && isset($_POST["editFile"])) {
             $track = $this->model->getFile($trackID);
-
             if ($_SESSION["user_id"]==$track->user_id){
                 $trackName = $_POST["name"];
                 $trackGenre = $_POST["genre"];
                 $trackDate = $_POST["date"];
 
                 $this->model->editFile($trackID, $trackName, $trackGenre, $trackDate);
-
+                
                 header("location:".$_SERVER['HTTP_REFERER']);
             } else {
                 header("Location:".BASE_URL);
@@ -95,10 +91,7 @@ class tracksController {
     }
 
     public function printTracksByGenre($filter) {
-        require_once './app/models/genresModel.php';
-        $genresModel = new genresModel();
-        $genres = $genresModel->getGenres();
-
+        $genres = $this->genresModel->getGenres();
         $tracks = $this->model->getTracksBy($filter);
         if ($tracks) {
             $this->view->showTracks($tracks, $genres);

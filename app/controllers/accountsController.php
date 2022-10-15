@@ -1,29 +1,33 @@
 <?php
 require_once './app/models/accountsModel.php';
 require_once './app/views/accountsView.php';
+require_once './app/models/tracksModel.php';
+require_once './app/models/genresModel.php';
+require_once './app/models/countriesModel.php';
 require_once './app/controllers/appController.php';            
 
 class accountsController {
     private $view;
     private $model;
+    private $tracksModel;
+    private $genresModel;
+    private $countriesModel;
     private $appController;
 
     public function __construct() {
         $this->model = new accountsModel();
+        $this->tracksModel = new tracksModel();
+        $this->genresModel = new genresModel();
+        $this->countriesModel = new countriesModel();
         $this->view = new accountsView();
         $this->appController = new appController();  
     }
 
     public function printAbout($profile) {
-        require_once './app/models/tracksModel.php';
-        $tracksModel = new tracksModel();
-        $tracks = $tracksModel->getTracksBy($profile);
-
-        require_once './app/models/genresModel.php';
-        $genresModel = new genresModel();
-        $genres = $genresModel->getGenres();
-
+        $tracks = $this->tracksModel->getTracksBy($profile);
+        $genres = $this->genresModel->getGenres();
         $account = $this->model->getAccount($profile);
+
         $this->view->showAbout($account, $tracks, $genres);  
     }
 
@@ -39,14 +43,8 @@ class accountsController {
 
     public function printProfileManager($profile, $setting) {
         if ($profile==$_SESSION["name"]) {  
-            require_once './app/models/countriesModel.php';
-            $countriesModel = new countriesModel();
-            $countries = $countriesModel->getCountries();
-
-            require_once './app/models/genresModel.php';
-            $genresModel = new genresModel();
-            $genres = $genresModel->getGenres();
-                    
+            $countries = $this->countriesModel->getCountries();
+            $genres = $this->genresModel->getGenres();                    
             $account = $this->model->getAccount($profile);
             $captcha = $this->appController->printCaptcha();
             
@@ -83,13 +81,8 @@ class accountsController {
                             header("Refresh:0; url=".BASE_URL."login/"); 
     
                         } else {
-                            require_once './app/models/countriesModel.php';
-                            $countriesModel = new countriesModel();
-                            $countries = $countriesModel->getCountries();
-    
-                            require_once './app/models/genresModel.php';
-                            $genresModel = new genresModel();
-                            $genres = $genresModel->getGenres();
+                            $countries = $this->countriesModel->getCountries();
+                            $genres = $this->genresModel->getGenres();
     
                             $captcha = $this->appController->printCaptcha();
                             $this->view->showProfileManager($account, $countries, $genres, "security", $captcha, "The passwords no match"); 
@@ -129,28 +122,18 @@ class accountsController {
                             header("Refresh:0; url=".BASE_URL."login/"); 
                             
                         } else {
-                            require_once './app/models/countriesModel.php';
-                            $countriesModel = new countriesModel();
-                            $countries = $countriesModel->getCountries();
-    
-                            require_once './app/models/genresModel.php';
-                            $genresModel = new genresModel();
-                            $genres = $genresModel->getGenres();
-    
+                            $countries = $this->countriesModel->getCountries();
+                            $genres = $this->genresModel->getGenres();    
                             $captcha = $this->appController->printCaptcha();
+
                             $this->view->showProfileManager($account, $countries, $genres, "general", $captcha, $error);
                         }                                
                     };
                 } else {
-                    require_once './app/models/countriesModel.php';
-                    $countriesModel = new countriesModel();
-                    $countries = $countriesModel->getCountries();
-    
-                    require_once './app/models/genresModel.php';
-                    $genresModel = new genresModel();
-                    $genres = $genresModel->getGenres();
-    
+                    $countries = $this->countriesModel->getCountries();
+                    $genres = $this->genresModel->getGenres();    
                     $captcha = $this->appController->printCaptcha();
+
                     $error = "The password is incorrect";
                     $this->view->showProfileManager($account, $countries, $genres, "general", $captcha, $error); 
                 }

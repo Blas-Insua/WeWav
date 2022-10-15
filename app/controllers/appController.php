@@ -1,12 +1,25 @@
 <?php
+require_once './app/models/accountsModel.php';
+require_once './app/models/tracksModel.php';
+require_once './app/models/genresModel.php';
+require_once './app/views/adminView.php';
+            
 require_once './app/views/appView.php';
 
 class appController {
     private $model;
+    private $accountsModel;
+    private $tracksModel;
+    private $genresModel;
+    private $adminView;
     private $view;
 
-    public function __construct() {
-        $this->view = new appView();        
+    public function __construct() {        
+        $this->accountsModel = new accountsModel;  
+        $this->tracksModel = new tracksModel(); 
+        $this->genresModel = new genresModel(); 
+        $this->view = new appView(); 
+        $this->adminView = new adminView();   
     }
 
     public function printHeader() {
@@ -16,9 +29,7 @@ class appController {
             $_SESSION["rol"] = 3;
             $this->view->showHeader();
         } else {
-            require_once './app/models/accountsModel.php';
-            $accountsModel = new accountsModel;
-            $account = $accountsModel->getAccount($_SESSION["name"]);
+            $account = $this->accountsModel->getAccount($_SESSION["name"]);
             $this->view->showHeader($account);
         };        
     }
@@ -41,21 +52,12 @@ class appController {
 
     public function printSystemManagement($management) {
         if ($_SESSION["rol"]==0 || $_SESSION["rol"]==1) {
-            require_once './app/models/tracksModel.php';
-            $tracksModel = new tracksModel();
-            $tracks = $tracksModel->getTracks();
+            
+            $tracks = $this->tracksModel->getTracks();
+            $genres = $this->genresModel->getGenres();
+            $accounts = $this->accountsModel->getAllAccounts();
+            $roles = $this->accountsModel->getRoles();
 
-            require_once './app/models/genresModel.php';
-            $genresModel = new genresModel();
-            $genres = $genresModel->getGenres();
-
-            require_once './app/models/accountsModel.php';
-            $accountsModel = new accountsModel();
-            $accounts = $accountsModel->getAllAccounts();
-            $roles = $accountsModel->getRoles();
-
-            require_once './app/views/adminView.php';
-            $this->adminView = new adminView();
             $this->adminView->showSystemManagement($tracks, $genres, $accounts, $roles, $management); 
         } else {
             header("location:".BASE_URL);
@@ -64,13 +66,8 @@ class appController {
 
     public function search($search) {
         $search = $_GET["q"];
-        require_once './app/models/tracksModel.php';
-        $tracksModel = new tracksModel();
-        $tracks = $tracksModel->searchTracks($search);
-
-        require_once './app/models/accountsModel.php';
-        $accountsModel = new accountsModel();
-        $accounts = $accountsModel->searchAccounts($search);   
+        $tracks = $this->tracksModel->searchTracks($search);
+        $accounts = $this->accountsModel->searchAccounts($search);   
         
         if (!$tracks && !$accounts) {
             $this->view->showSearch($search); 
