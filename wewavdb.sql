@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-10-2022 a las 22:19:16
+-- Tiempo de generación: 18-10-2022 a las 03:48:42
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -32,7 +32,6 @@ CREATE TABLE `accounts` (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `AKA` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `photo` longblob DEFAULT NULL,
   `photo_dir` varchar(255) COLLATE utf8mb4_spanish2_ci DEFAULT NULL,
   `genre_id` int(255) DEFAULT 0,
   `country_id` int(255) DEFAULT 0,
@@ -43,21 +42,33 @@ CREATE TABLE `accounts` (
 -- Volcado de datos para la tabla `accounts`
 --
 
-INSERT INTO `accounts` (`id`, `name`, `AKA`, `password`, `photo`, `photo_dir`, `genre_id`, `country_id`, `rol_id`) VALUES
-(0, 'Grand Master Admin', 'ZERO', '$2y$10$O.h1zDQTxd5o1.youdNF9.oHDof.xiQ0xDu70mkkG/2AvaHNkAEqS', 0x443a5c50726f6772616d735c58414d50505c746d705c706870444241432e746d70, './images/profile_photos/634809b4270453.85829192.png', 1, 0, 0),
-(1, 'admin-1', 'ONE', '$2y$10$J/Ci1C5g51lwdvJm.nkW4uiiZKWuX3Kk432kkdb7EPYMBBAalt0vu', 0x443a5c50726f6772616d735c58414d50505c746d705c706870393636412e746d70, './images/profile_photos/63480960d959c6.28739763.png', 1, 0, 1),
-(2, 'admin-2', 'TWO', '$2y$10$cynESTlIoPcOzhauUh8TwuEUg/WYMzy67l3hINqHJL3AotxJIK6Me', 0x443a5c50726f6772616d735c58414d50505c746d705c706870363641372e746d70, './images/profile_photos/634809d7c7d143.61187459.png', 1, 0, 1),
-(4, 'Blas Insua', 'Lykans Beats', '$2y$10$Tv8KnOxW7nIWXgRxjOEc5OBxc7jjdWXN77e0slT9Cj1K4CO2reTwq', NULL, './images/profile_photos/Logo.png', 7, 11, 2),
-(5, 'user-five', '05', '$2y$10$2nhBkr6leNbPec/HIsuj6unCwIzXx7UduArSC.hR9C.qSaMaT8JPG', NULL, NULL, 35, 151, 2),
-(6, 'user-six', '666', '$2y$10$nBNZGdTB.357Tl.C.HN2nODa7J8DyolE9hfIrheocxjXbQgUlwWNm', NULL, NULL, 31, 233, 2),
-(7, 'user-seven', '07', '$2y$10$FPgw1zh8vXX3OK5BaA2y9.4g.g/yDHkIQXs2agMGxmMbPblC9wCve', NULL, NULL, 42, 71, 2),
-(8, 'user-eight', '08', '$2y$10$A5hrdri2ed03DOqbKatKsu7AEwgF6kK44ZJTk5/EisnMC3Ali0yCu', NULL, NULL, 33, 17, 2),
-(9, 'user-nine', '09', '$2y$10$oOA8cWocT6Ti0.U2CYfn/uPeY2XRNJ9VOZuP7oBLl7eoo2TFST81W', NULL, NULL, 16, 9, 2),
-(19, 'user-eleven', '11', '$2y$10$QxTXc0vy34asdmmb6DLOK.JUYBHbV0XM3Rn0Cf16a78L0c2/gOfFq', NULL, NULL, 0, 0, 2),
-(20, 'user-twelve', '12', '$2y$10$mYzBrBWzeJ59K5s3eer1bumMlsK7h24cfMRxdUshun4sMSf4s0vmC', NULL, NULL, 1, 0, 2),
-(21, 'trecedoce', '1312', '$2y$10$Uqmo8lPysY6mYJT18D2//eVvDoe9y2XWfT0kVeOKiu88BAQhb9PrC', NULL, '', 1, 0, 2),
-(23, 'test', 'test', '$2y$10$kMIXFd7UARYDHnzPc9TuMeLafxA.kGysB350zDwc2OTegdnH0RDBm', 0x443a5c50726f6772616d735c58414d50505c746d705c706870343036432e746d70, './images/profile_photos/6347d2409ce087.44436558.png', 1, 0, 2),
-(24, 'test2', 'test2', '$2y$10$kQpvHiP4loaAdhafVJj41.n2/Ux5P4YanJA1/.YaMRWZpqLa8WIpS', 0x443a5c50726f6772616d735c58414d50505c746d705c706870463933322e746d70, './images/profile_photos/6347978ecd6ae1.96876945.png', 1, 0, 2);
+INSERT INTO `accounts` (`id`, `name`, `AKA`, `password`, `photo_dir`, `genre_id`, `country_id`, `rol_id`) VALUES
+(0, 'Grand Master Admin', 'ZERO', '$2y$10$O.h1zDQTxd5o1.youdNF9.oHDof.xiQ0xDu70mkkG/2AvaHNkAEqS', './images/profile_photos/634809b4270453.85829192.png', 1, 0, 0),
+(1, 'admin-1', 'ONE', '$2y$10$J/Ci1C5g51lwdvJm.nkW4uiiZKWuX3Kk432kkdb7EPYMBBAalt0vu', './images/profile_photos/63480960d959c6.28739763.png', 1, 0, 1),
+(2, 'admin-2', 'TWO', '$2y$10$cynESTlIoPcOzhauUh8TwuEUg/WYMzy67l3hINqHJL3AotxJIK6Me', './images/profile_photos/634809d7c7d143.61187459.png', 1, 0, 1),
+(3, 'web-2', 'WEB2', '$2y$10$auTS8IJIglHTr9/tSlk4vuLJM.vRXxQF/ugFib0jdfC5SP6x/2gRW', NULL, 1, 0, 1),
+(4, 'Blas Insua', 'Lykans Beats', '$2y$10$Tv8KnOxW7nIWXgRxjOEc5OBxc7jjdWXN77e0slT9Cj1K4CO2reTwq', './images/profile_photos/Logo.png', 7, 11, 2),
+(5, 'user-five', '05', '$2y$10$2nhBkr6leNbPec/HIsuj6unCwIzXx7UduArSC.hR9C.qSaMaT8JPG', NULL, 35, 151, 2),
+(6, 'user-six', '666', '$2y$10$nBNZGdTB.357Tl.C.HN2nODa7J8DyolE9hfIrheocxjXbQgUlwWNm', NULL, 31, 233, 2),
+(7, 'user-seven', '07', '$2y$10$FPgw1zh8vXX3OK5BaA2y9.4g.g/yDHkIQXs2agMGxmMbPblC9wCve', NULL, 42, 71, 2),
+(8, 'user-eight', '08', '$2y$10$A5hrdri2ed03DOqbKatKsu7AEwgF6kK44ZJTk5/EisnMC3Ali0yCu', NULL, 33, 17, 2),
+(9, 'user-nine', '09', '$2y$10$oOA8cWocT6Ti0.U2CYfn/uPeY2XRNJ9VOZuP7oBLl7eoo2TFST81W', NULL, 16, 9, 2),
+(10, 'user-ten', '10', '$2y$10$kMIXFd7UARYDHnzPc9TuMeLafxA.kGysB350zDwc2OTegdnH0RDBm', './images/profile_photos/6347d2409ce087.44436558.png', 1, 0, 2),
+(11, 'user-eleven', '11', '$2y$10$QxTXc0vy34asdmmb6DLOK.JUYBHbV0XM3Rn0Cf16a78L0c2/gOfFq', NULL, 0, 0, 2),
+(12, 'user-twelve', '12', '$2y$10$mYzBrBWzeJ59K5s3eer1bumMlsK7h24cfMRxdUshun4sMSf4s0vmC', NULL, 1, 0, 2),
+(13, 'trecedoce', '1312', '$2y$10$Uqmo8lPysY6mYJT18D2//eVvDoe9y2XWfT0kVeOKiu88BAQhb9PrC', '', 1, 0, 2),
+(14, 'user-fourteen', '14', '$2y$10$kQpvHiP4loaAdhafVJj41.n2/Ux5P4YanJA1/.YaMRWZpqLa8WIpS', './images/profile_photos/6347978ecd6ae1.96876945.png', 1, 0, 2),
+(15, 'user-fiveteen', '15', '$2y$10$l3eFtak9HlCyQK3pnzl5GeMpOK4Qt7mu2gq9DzDRmTqH1mgmoEuLu', NULL, 1, 0, 2),
+(16, 'user-sixteen', '16', '$2y$10$sbDD8woHe5Kf3/ogJ.jeDugYYORE0OATf2.C1rGbuPtLnI01vRTbC', NULL, 1, 0, 2),
+(17, 'user-seventeen', '17', '$2y$10$b2.FKxMK9DFLVxMIR6G7weMt5ZTWqzHFvmSWM0CZ/0uczRpsHNpPW', NULL, 1, 0, 2),
+(18, 'user-eighteen', '18', '$2y$10$QlYlR/ktoizYFr6c9LCLJ.5jYXFlfPXhPpfb8kU5UZBU5I0czOHZ.', NULL, 1, 0, 2),
+(19, 'user-nineteen', '19', '$2y$10$NBGSitDUDbMLuGtGvTqLZO1WtlaW5cC6aZ6A.nUVFHIJX81PyLIAW', NULL, 1, 0, 2),
+(20, 'user-twenty', '20', '$2y$10$IMWzOwSM.Ruza.8/bFwZD.r7yoE6xuOpFpD5iX/nNH.yHjzebgR7e', NULL, 1, 0, 2),
+(21, 'user-twentyone', '21', '$2y$10$7xtmY/f.0zZUY0FcmDvxzOH41A3C3ee8oDV/moAstrhY9AECSkMtq', './images/profile_photos/634df41ebe2e80.04606909.png', 1, 0, 2),
+(22, 'El loco', '22', '$2y$10$l84.WW/Z.DqAgolSJ29rLujLidoq5oo6vQjzu4LcwJvRoybnQsTES', NULL, 1, 0, 2),
+(23, 'user-twentythree', '23', '$2y$10$s9WU34jBKgHxMdhgMQ9XGOGdvT9sbsoVfbYzF58W1kzKZ16SdDlyC', NULL, 1, 0, 2),
+(24, 'user-twentyfour', '24', '$2y$10$RL2ZYyIN97/H7.wrd1HqDOmYMcv.ZsUcv1hAkLoD1j0kEfUz8qS/K', './images/profile_photos/634dfd38592fb1.39096572.png', 1, 0, 2),
+(25, 'user-twentyfive', '25', '$2y$10$jK0RFzKuoVq6RbSTtrMdce8sb03jrDHG.DRdHqcmFZ8JUQ8jkHkWO', './images/profile_photos/634dff19e97c74.61028554.png', 1, 0, 2);
 
 -- --------------------------------------------------------
 
@@ -438,20 +449,20 @@ INSERT INTO `tracks` (`id`, `name`, `user_id`, `genre_id`, `date`, `photo`, `pho
 (23, 'qweqweqweq', 6, 43, '2022-10-06', '0', NULL),
 (24, 'aasd', 7, 8, '2022-10-02', '0', NULL),
 (25, 'qwertyuiop', 7, 28, '2022-10-06', '0', NULL),
-(27, 'track17', 20, 25, '2022-10-06', '0', NULL),
-(28, 'track18', 20, 44, '2022-10-06', '0', NULL),
-(29, 'track19', 20, 18, '2022-10-06', '0', NULL),
-(30, 'track20', 20, 30, '2022-10-06', '0', NULL),
-(31, 'track21', 21, 21, '2022-01-31', '0', NULL),
-(32, 'track22', 21, 7, '2022-10-06', '0', NULL),
-(33, 'track23', 21, 5, '2022-10-06', '0', NULL),
-(34, 'track24', 21, 1, '2022-10-06', '0', NULL),
-(35, 'track25', 21, 2, '2022-10-05', '0', NULL),
-(36, 'track26', 21, 6, '2022-10-06', '0', NULL),
+(27, 'track17', 12, 25, '2022-10-06', '0', NULL),
+(28, 'track18', 12, 44, '2022-10-06', '0', NULL),
+(29, 'track19', 12, 18, '2022-10-06', '0', NULL),
+(30, 'track20', 12, 30, '2022-10-06', '0', NULL),
+(31, 'track21', 13, 21, '2022-01-31', '0', NULL),
+(32, 'track22', 13, 7, '2022-10-06', '0', NULL),
+(33, 'track23', 13, 5, '2022-10-06', '0', NULL),
+(34, 'track24', 13, 1, '2022-10-06', '0', NULL),
+(35, 'track25', 13, 2, '2022-10-05', '0', NULL),
+(36, 'track26', 13, 6, '2022-10-06', '0', NULL),
 (38, 'test', 1, 12, '0000-00-00', '0', NULL),
-(40, 'test2', 1, 1, '2022-10-10', '0', NULL),
 (42, 'test3', 1, 9, '0000-00-00', 'D:\\Programs\\XAMPP\\tmp\\phpF8F8.tmp', 0x2e2f696d616765732f747261636b735f70686f746f732f36333437643939616461636638312e34323332303539312e706e67),
-(43, 'bytest01', 23, 35, '0000-00-00', 'D:\\Programs\\XAMPP\\tmp\\php392.tmp', 0x2e2f696d616765732f747261636b735f70686f746f732f36333439613661646630343635322e38363934343331312e6a7067);
+(43, 'bytest01', 10, 35, '0000-00-00', 'D:\\Programs\\XAMPP\\tmp\\php392.tmp', 0x2e2f696d616765732f747261636b735f70686f746f732f36333439613661646630343635322e38363934343331312e6a7067),
+(44, 'by25-01', 25, 35, '0000-00-00', 'D:\\Programs\\XAMPP\\tmp\\php99FC.tmp', 0x2e2f696d616765732f747261636b735f70686f746f732f36333464666666346162346564372e36383431373132342e706e67);
 
 --
 -- Índices para tablas volcadas
@@ -501,7 +512,7 @@ ALTER TABLE `tracks`
 -- AUTO_INCREMENT de la tabla `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `countries`
@@ -525,7 +536,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `tracks`
 --
 ALTER TABLE `tracks`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- Restricciones para tablas volcadas
