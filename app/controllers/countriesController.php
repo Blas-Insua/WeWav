@@ -1,18 +1,10 @@
 <?php
-require_once './app/models/countriesModel.php';
-require_once './app/views/countriesView.php';
+require_once './app/controllers/appController.php';
 
-class countriesController {
-    private $model;
-    private $view;
-
-    public function __construct() {
-        $this->model = new countriesModel();
-        $this->view = new countriesView();
-    }
+class countriesController extends appController {
 
     public function printCountries() {
-        $countries = $this->model->getCountries();
-        $this->view->showCountries($countries);
+        $countries = $this->countriesModel->getCountries();
+        $this->countriesView->showCountries($countries);
     }
 }

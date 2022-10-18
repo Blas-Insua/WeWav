@@ -1,25 +1,41 @@
 <?php
-require_once './app/models/accountsModel.php';
-require_once './app/models/tracksModel.php';
-require_once './app/models/genresModel.php';
-require_once './app/views/adminView.php';
-            
 require_once './app/views/appView.php';
+require_once './app/models/accountsModel.php';
+require_once './app/views/accountsView.php';            
+require_once './app/models/tracksModel.php';
+require_once './app/views/tracksView.php';            
+require_once './app/models/genresModel.php';
+require_once './app/views/genresView.php';            
+require_once './app/models/countriesModel.php';
+require_once './app/views/countriesView.php';            
+require_once './app/views/adminView.php';            
+require_once './app/views/authView.php';            
 
 class appController {
-    private $model;
-    private $accountsModel;
-    private $tracksModel;
-    private $genresModel;
-    private $adminView;
-    private $view;
+    public $appView;
+    public $accountsModel;
+    public $accountsView;
+    public $tracksModel;
+    public $tracksView;
+    public $genresModel;
+    public $genresView;
+    public $countriesModel;
+    public $countriesView;
+    public $adminView;
+    public $authView;
 
     public function __construct() {        
+        $this->appView = new appView(); 
         $this->accountsModel = new accountsModel;  
+        $this->accountsView = new accountsView();   
         $this->tracksModel = new tracksModel(); 
+        $this->tracksView = new tracksView();   
         $this->genresModel = new genresModel(); 
-        $this->view = new appView(); 
-        $this->adminView = new adminView();   
+        $this->genresView = new genresView();   
+        $this->countriesModel = new countriesModel(); 
+        $this->countriesView = new countriesView();   
+        $this->adminView = new adminView(); 
+        $this->authView = new authView();  
     }
 
     public function printHeader() {
@@ -27,15 +43,15 @@ class appController {
         if (!isset($_SESSION["name"])) {
             $_SESSION["loggedin"] = false;
             $_SESSION["rol"] = 3;
-            $this->view->showHeader();
+            $this->appView->showHeader();
         } else {
             $account = $this->accountsModel->getAccount($_SESSION["name"]);
-            $this->view->showHeader($account);
-        };        
+            $this->appView->showHeader($account);
+        }        
     }
 
     public function printFooter() {
-        $this->view->showFooter($_SESSION["rol"]);
+        $this->appView->showFooter();
     }
 
     public function printCaptcha() {   
@@ -70,18 +86,15 @@ class appController {
         $accounts = $this->accountsModel->searchAccounts($search);   
         
         if (!$tracks && !$accounts) {
-            $this->view->showSearch($search); 
+            $this->appView->showSearch($search); 
         }
         
         if($tracks) {
-            require_once './app/views/tracksView.php';
-            $tracksView = new tracksView();
-            $tracksView->showTracks($tracks); 
+            $this->tracksView->showTracks($tracks); 
         }
         if($accounts) {
-            require_once './app/views/accountsView.php';
-            $accountsView = new accountsView();
-            $accountsView->showAccounts($accounts); 
+            $this->accountsView->showAccounts($accounts); 
         }
     }
 }
+

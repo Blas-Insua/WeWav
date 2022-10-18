@@ -1,32 +1,24 @@
 <?php
-require_once './app/models/genresModel.php';
-require_once './app/views/genresView.php';
+require_once './app/controllers/appController.php';
 
-class genresController {
-    private $model;
-    private $view;
-
-    public function __construct() {
-        $this->model = new genresModel();
-        $this->view = new genresView();
-    }
+class genresController extends appController{
 
     public function printGenres() {
-        $genres = $this->model->getGenres();
-        $this->view->showGenres($genres);
+        $genres = $this->genresModel->getGenres();
+        $this->genresView->showGenres($genres);
     }
 
     public function editGenre($id) {
         if ($_SESSION["rol"]==0 || $_SESSION["rol"]==1) {
             $genre = $_POST["genre"];
-            $this->model->editGenre($id, $genre);
+            $this->genresModel->editGenre($id, $genre);
             header("location:".$_SERVER['HTTP_REFERER']); 
         }        
     }
 
     public function deleteGenre($id) {
         if ($_SESSION["rol"]==0 || $_SESSION["rol"]==1) {
-            $this->model->deleteGenre($id);
+            $this->genresModel->deleteGenre($id);
         }          
     }
 }

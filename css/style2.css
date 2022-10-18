@@ -777,7 +777,7 @@ td a.deleteFile, td input.editFile {
 #userStories img{ 
     width: 40px;
     height: 40px;
-    margin-right: 15px;
+    margin-right: 10px;
     scroll-snap-align: start;
 }
 
@@ -854,14 +854,13 @@ td a.deleteFile, td input.editFile {
     padding-left: 25px;
     padding-right: 25px;
     margin: 5px auto;
+    max-width: 200px;
 }
 
 #errorDIV.active {
     background-color: rgb(236, 60, 60);
     color: black;
-    border-radius: 10px;
-    max-width: 200px;
-    
+    border-radius: 10px; 
 }
 
 /* tablet */

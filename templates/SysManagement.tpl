@@ -41,7 +41,7 @@
                 </thead>
                 <tbody>
                     {foreach from=$accounts item=$profile}
-                        <form id="profile_{$profile->name}" action="editProfile/{$profile->name}/admin" method="post"></form>
+                        <form id="profile_{$profile->name}" action="editProfile/{$profile->name}/admin/" method="post"></form>
                         <tr>
                             <td><input type="submit" form="profile_{$profile->name}" class="editFile" title="Edit profile"></input></td>
                             <td>
@@ -63,7 +63,7 @@
                             <td>{$profile->AKA}</td>
                             <td>{$profile->country}</td>
                             <td>{$profile->genre}</td>               
-                            <td><a class="deleteFile" href="deleteProfile/{$profile->id}/" title="Delete profile">del</a></td>
+                            <td><a class="deleteFile" href="deleteProfile/{$profile->name}/admin/" title="Delete profile">del</a></td>
                         </tr>
                     {/foreach}
                 </tbody>

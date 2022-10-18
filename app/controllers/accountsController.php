@@ -1,61 +1,42 @@
 <?php
-require_once './app/models/accountsModel.php';
-require_once './app/views/accountsView.php';
-require_once './app/models/tracksModel.php';
-require_once './app/models/genresModel.php';
-require_once './app/models/countriesModel.php';
+
 require_once './app/controllers/appController.php';            
 
-class accountsController {
-    private $view;
-    private $model;
-    private $tracksModel;
-    private $genresModel;
-    private $countriesModel;
-    private $appController;
-
-    public function __construct() {
-        $this->model = new accountsModel();
-        $this->tracksModel = new tracksModel();
-        $this->genresModel = new genresModel();
-        $this->countriesModel = new countriesModel();
-        $this->view = new accountsView();
-        $this->appController = new appController();  
-    }
+class accountsController extends appController {
 
     public function printAbout($profile) {
         $tracks = $this->tracksModel->getTracksBy($profile);
         $genres = $this->genresModel->getGenres();
-        $account = $this->model->getAccount($profile);
+        $account = $this->accountsModel->getAccount($profile);
 
-        $this->view->showAbout($account, $tracks, $genres);  
+        $this->accountsView->showAbout($account, $tracks, $genres);  
     }
 
     public function printAccounts() {
-        $accounts = $this->model->getAllAccounts();
-        $this->view->showAccounts($accounts); 
+        $accounts = $this->accountsModel->getAllAccounts();
+        $this->accountsView->showAccounts($accounts); 
     }
 
     public function printAccountsStories() {
-        $accounts = $this->model->getAllAccounts();
-        $this->view->showAccountsStories($accounts); 
+        $accounts = $this->accountsModel->getAllAccounts();
+        $this->accountsView->showAccountsStories($accounts); 
     }
 
     public function printProfileManager($profile, $setting) {
         if ($profile==$_SESSION["name"]) {  
             $countries = $this->countriesModel->getCountries();
             $genres = $this->genresModel->getGenres();                    
-            $account = $this->model->getAccount($profile);
-            $captcha = $this->appController->printCaptcha();
+            $account = $this->accountsModel->getAccount($profile);
+            $captcha = $this->printCaptcha();
             
-            $this->view->showProfileManager($account, $countries, $genres, $setting, $captcha);            
+            $this->accountsView->showProfileManager($account, $countries, $genres, $setting, $captcha);            
         } else {
             header("location:".BASE_URL);
         }             
     } 
 
     public function editProfile($profile, $request) {
-        $account = $this->model->getAccount($profile); 
+        $account = $this->accountsModel->getAccount($profile); 
         $id = $account->id;
         if ($request=="owner") {            
             if ($_FILES) {   
@@ -63,7 +44,7 @@ class accountsController {
                     $photo = $_FILES["profilePhoto"]["tmp_name"];   
                     $photo_dir = "./images/profile_photos/".uniqid("", true).".".strtolower(pathinfo($_FILES['profilePhoto']['name'], PATHINFO_EXTENSION));
                     
-                    $this->model->editProfilePhoto($id, $photo, $photo_dir); 
+                    $this->accountsModel->editProfilePhoto($id, $photo, $photo_dir); 
                     header("location:".BASE_URL."account/".$profile."/"); 
                 } else {
                     $error = 'Sorry, only JPG, JPEG, PNG files are allowed to upload.';
@@ -76,7 +57,7 @@ class accountsController {
                         if (($_POST['passwordNew']==$_POST['passwordConfirm'])) {
                             $password = password_hash($_POST['passwordNew'], PASSWORD_BCRYPT); 
     
-                            $this->model->editProfilePassword($id, $password);
+                            $this->accountsModel->editProfilePassword($id, $password);
                             header("location:".BASE_URL."logout/"); 
                             header("Refresh:0; url=".BASE_URL."login/"); 
     
@@ -84,13 +65,13 @@ class accountsController {
                             $countries = $this->countriesModel->getCountries();
                             $genres = $this->genresModel->getGenres();
     
-                            $captcha = $this->appController->printCaptcha();
-                            $this->view->showProfileManager($account, $countries, $genres, "security", $captcha, "The passwords no match"); 
+                            $captcha = $this->printCaptcha();
+                            $this->accountsView->showProfileManager($account, $countries, $genres, "security", $captcha, "The passwords no match"); 
                         }                       
                     } else {                    
                         if (!empty($_POST["name"])) {
                             $nameParam = $_POST["name"];
-                            $accountExist = $this->model->getAccount($nameParam); 
+                            $accountExist = $this->accountsModel->getAccount($nameParam); 
                             if ($accountExist && $accountExist->id!=$_SESSION["user_id"]) {
                                 $error = "This user name is already taken";                            
                             } else {
@@ -101,7 +82,7 @@ class accountsController {
                         }
                         if (!empty($_POST["AKA"])) {
                             $AKAParam = $_POST["AKA"];
-                            $accountExist = $this->model->getAccount($AKAParam); 
+                            $accountExist = $this->accountsModel->getAccount($AKAParam); 
                             if ($accountExist && $accountExist->id!=$_SESSION["user_id"]) {
                                 $error = "This AKA is already taken";                            
                             } else {
@@ -117,30 +98,30 @@ class accountsController {
                             $genre = $_POST["genre"];
                             $country = $_POST["country"];
     
-                            $this->model->editProfile($id, $name, $AKA, $genre, $country);
+                            $this->accountsModel->editProfile($id, $name, $AKA, $genre, $country);
                             header("location:".BASE_URL."logout/"); 
                             header("Refresh:0; url=".BASE_URL."login/"); 
                             
                         } else {
                             $countries = $this->countriesModel->getCountries();
                             $genres = $this->genresModel->getGenres();    
-                            $captcha = $this->appController->printCaptcha();
+                            $captcha = $this->printCaptcha();
 
-                            $this->view->showProfileManager($account, $countries, $genres, "general", $captcha, $error);
+                            $this->accountsView->showProfileManager($account, $countries, $genres, "general", $captcha, $error);
                         }                                
                     };
                 } else {
                     $countries = $this->countriesModel->getCountries();
                     $genres = $this->genresModel->getGenres();    
-                    $captcha = $this->appController->printCaptcha();
+                    $captcha = $this->printCaptcha();
 
                     $error = "The password is incorrect";
-                    $this->view->showProfileManager($account, $countries, $genres, "general", $captcha, $error); 
+                    $this->accountsView->showProfileManager($account, $countries, $genres, "general", $captcha, $error); 
                 }
             }                        
         } else if ($request=="admin" && (isset($_POST["user_rol"]) && ($_SESSION["rol"]==0 || $_SESSION["rol"]==1))) {
             $rol = $_POST["user_rol"];
-            $this->model->editProfileRol($id, $rol);
+            $this->accountsModel->editProfileRol($id, $rol);
             header("Location:".$_SERVER["HTTP_REFERER"]);
         } else {
             header("location:".BASE_URL);
@@ -149,27 +130,39 @@ class accountsController {
 
     public function deleteProfilePhoto($profile) {
         if ($profile==$_SESSION["name"]) {
-            $account = $this->model->getAccount($profile); 
+            $account = $this->accountsModel->getAccount($profile); 
             $id = $account->id;
-            $this->model->deleteProfilePhoto($id); 
+            $this->accountsModel->deleteProfilePhoto($id); 
             header("location:".BASE_URL."account/".$profile."/"); 
         } else {
             header("location:".BASE_URL); 
         }
     }
 
-    public function deleteProfile($id) {
-        session_start();
-        if ($id==$_SESSION["user_id"] || $_SESSION["rol"]==0 || $_SESSION["rol"]==1) {
-            if ($_SESSION["rol"]==2 || $id==$_SESSION["user_id"]) {
+    public function deleteProfile($profile, $request) {        
+        $account = $this->accountsModel->getAccount($profile); 
+        $id = $account->id; 
+
+        if ($request=="owner" && $account->id==$_SESSION["user_id"]) {            
+            
+            if ($_POST["password"] && password_verify($_POST["password"],($account->password))) {
                 header("location:".BASE_URL."logout/");  
-                header("Refresh:0; url=".BASE_URL."home/");
+                $this->accountsModel->deleteProfile($id); 
+                header("Refresh:0; url=".BASE_URL."home/"); 
             } else {
-                header("location:".$_SERVER['HTTP_REFERER']); 
+                $error = "Wrong password.";
+                $countries = $this->countriesModel->getCountries();
+                $genres = $this->genresModel->getGenres();    
+                $captcha = $this->printCaptcha();
+
+                $this->accountsView->showProfileManager($account, $countries, $genres, "delete", $captcha, $error);
             }
-            $this->model->deleteProfile($id); 
+            
+        } else if (($request=="admin" && $_SESSION["rol"]==0) || ($request=="admin" && $_SESSION["rol"]==1)) {
+            $this->accountsModel->deleteProfile($id); 
+            header("location:".$_SERVER['HTTP_REFERER']);
         } else {
             header("location:".BASE_URL);
-        } 
+        }
     }
 }

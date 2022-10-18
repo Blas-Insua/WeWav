@@ -67,27 +67,14 @@
             if ($photo!=null) {
                 move_uploaded_file($photo, $photo_dir);  
             }
-            $query = $this->db->prepare("INSERT INTO accounts (name, AKA, password, genre_id, country_id, photo, photo_dir) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $query->execute([$name, $AKA, $password, $genre, $country, $photo, $photo_dir]);
+            $query = $this->db->prepare("INSERT INTO accounts (name, AKA, password, genre_id, country_id, photo_dir) VALUES (?, ?, ?, ?, ?, ?)");
+            $query->execute([$name, $AKA, $password, $genre, $country, $photo_dir]);
             $user = $query->fetch(PDO::FETCH_OBJ); 
         }       
 
         public function deleteProfile($id) {
-            $usersQuery = $this->db->prepare('SELECT * FROM accounts WHERE id = ?');
-            $usersQuery->execute([$id]);
-            $user = $usersQuery->fetch(PDO::FETCH_OBJ);         
-            
-            if ($_SESSION["rol"]==2) {
-                if($user && password_verify($_POST["password"],($user->password))){
-                    $query = $this->db->prepare("DELETE FROM `accounts` WHERE `accounts`.`id`=?");
-                    $query->execute([$id]);                              
-                } else {
-                    $this->view->showProfileManagerErr($account);  
-                }
-            } else {
-                $query = $this->db->prepare("DELETE FROM `accounts` WHERE `accounts`.`id`=?");
-                $query->execute([$id]);
-            }            
+            $query = $this->db->prepare("DELETE FROM `accounts` WHERE `accounts`.`id`=?");
+            $query->execute([$id]);                          
         }
 
         public function editProfile($id, $name, $AKA, $genre, $country) {
@@ -109,13 +96,13 @@
 
         public function editProfilePhoto($id, $photo, $photo_dir) {
             if (move_uploaded_file($photo, $photo_dir)) {
-                $query = $this->db->prepare("UPDATE `accounts` SET `photo`= ?, `photo_dir`= ? WHERE `accounts`.`id`= ?");
-                $query->execute([$photo, $photo_dir, $id]);  
+                $query = $this->db->prepare("UPDATE `accounts` SET `photo_dir`= ? WHERE `accounts`.`id`= ?");
+                $query->execute([$photo_dir, $id]);  
             }    
         }
 
         public function deleteProfilePhoto($id) {
-            $query = $this->db->prepare("UPDATE `accounts` SET `photo`= '', `photo_dir`= '' WHERE `accounts`.`id`= ?");
+            $query = $this->db->prepare("UPDATE `accounts` SET `photo_dir`= '' WHERE `accounts`.`id`= ?");
             $query->execute([$id]);    
         }
     }

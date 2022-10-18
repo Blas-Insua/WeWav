@@ -15,12 +15,12 @@ if (!empty($_GET['action'])) {
 
 $params = explode('/', $action); 
 
-
 $appController = new appController();
 $authController = new authController();
 $accountsController = new accountsController();
 $tracksController = new tracksController();
 $genresController = new genresController();
+
 $appController->printHeader();
     
 switch ($params[0]) {
@@ -85,7 +85,7 @@ switch ($params[0]) {
         $accountsController->editProfile($params[1], $params[2]);        
         break;
     case 'deleteProfile':
-        $accountsController->deleteProfile($params[1]);        
+        $accountsController->deleteProfile($params[1], $params[2]);        
         break;
     case 'tracks':
         $tracksController->printTracks();

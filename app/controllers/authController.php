@@ -1,19 +1,7 @@
 <?php
-require_once './app/models/accountsModel.php';
-require_once './app/views/authView.php';
-require_once './app/controllers/appController.php';
-                
+require_once './app/controllers/appController.php';                
 
-class authController {
-    private $view;
-    private $model;
-    private $appController;
-
-    public function __construct() {
-        $this->model = new accountsModel();
-        $this->view = new authView();
-        $this->appController = new appController(); 
-    }
+class authController extends appController {
 
     public function signup() {
         $name = $_POST['name'];
@@ -22,55 +10,55 @@ class authController {
         $genre = $_POST['genre'];
         $country = $_POST['country'];
 
-        $account = $this->model->getAccount($name);
+        $account = $this->accountsModel->getAccount($name);
 
         if ($account) {
-            $captcha = $this->appController->printCaptcha();
+            $captcha = $this->printCaptcha();
             $error = 'This user name or AKA is already taken.';
         } else {
             if (($passwordParam==$_POST['passConfirm'])) {
                 $password = password_hash($passwordParam, PASSWORD_BCRYPT); 
-                if ($_FILES) {   
+                
+                if (is_uploaded_file($_FILES['profilePhoto']["tmp_name"])) {   
                     if ($_FILES['profilePhoto']['type'] == "image/jpg" || $_FILES['profilePhoto']['type'] == "image/jpeg" || $_FILES['profilePhoto']['type'] == "image/png")  {
                         $photo = $_FILES["profilePhoto"]["tmp_name"];   
                         $photo_dir = "./images/profile_photos/".uniqid("", true).".".strtolower(pathinfo($_FILES['profilePhoto']['name'], PATHINFO_EXTENSION));
                         
-                        $this->model->createAccount($name, $AKA, $password, $genre, $country, $photo, $photo_dir); 
+                        $this->accountsModel->createAccount($name, $AKA, $password, $genre, $country, $photo, $photo_dir); 
         
                     } else {
                         $error = 'Sorry, only JPG, JPEG, PNG files are allowed to upload.';
                     }             
                 } else {
-                    $this->model->createAccount($name, $AKA, $password, $genre, $country); 
+                    $this->accountsModel->createAccount($name, $AKA, $password, $genre, $country); 
                 }
             } else {                      
                 $error = 'The passwords no match.'; 
             }
-        }
-        
+        }        
 
         if (!$error) {
             header("location:".BASE_URL."login/");
         } else {
-            $captcha = $this->appController->printCaptcha(); 
-            $this->view->showSignupForm($captcha, $error);
+            $captcha = $this->printCaptcha(); 
+            $this->authView->showSignupForm($captcha, $error);
         }
     }
 
     public function printLoginForm() { 
-        $captcha = $this->appController->printCaptcha();
-        $this->view->showLoginForm($captcha);
+        $captcha = $this->printCaptcha();
+        $this->authView->showLoginForm($captcha);
     }
 
     public function printSignupForm() {  
-        $captcha = $this->appController->printCaptcha();
-        $this->view->showSignupForm($captcha);
+        $captcha = $this->printCaptcha();
+        $this->authView->showSignupForm($captcha);
     }
 
     public function login() {
         $name = $_POST['name'];
         $password = $_POST['password'];
-        $account = $this->model->getAccount($name);
+        $account = $this->accountsModel->getAccount($name);
 
         if ($account) {
             if (password_verify($password,($account->password))) {
@@ -82,12 +70,12 @@ class authController {
                 $_SESSION["rol"] = $account->rol_id;
                 header("location:".BASE_URL); 
             } else {
-                $captcha = $this->appController->printCaptcha();
-                $this->view->showLoginForm($captcha, 'Wrong password');
+                $captcha = $this->printCaptcha();
+                $this->authView->showLoginForm($captcha, 'Wrong password');
             }
         } else {
-            $captcha = $this->appController->printCaptcha();
-            $this->view->showLoginForm($captcha, 'Account not found with that username.');
+            $captcha = $this->printCaptcha();
+            $this->authView->showLoginForm($captcha, 'Account not found with that username.');
         };
     }
 

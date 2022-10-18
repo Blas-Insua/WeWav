@@ -7,7 +7,7 @@
     </ul> 
     <div class="formContainer"> 
         {if $setting=="general" || $setting==null}
-            <form id="profileForm" action="editProfile/{$profile->name}/owner" method="post" class="editProfileGeneral">
+            <form id="profileForm" action="editProfile/{$profile->name}/owner/" method="post" class="editProfileGeneral">
                 <fieldset id="name" for="name"><legend>User name</legend><input type="text" name="name"></fieldset>
                 <fieldset id="AKA" for="AKA"><legend>A.k.a</legend><input type="text" name="AKA"></fieldset>    
                 <fieldset id="password" for="password"><legend>Password</legend><input type="password" name="password"></fieldset>    
@@ -29,7 +29,7 @@
             </form> 
         {else}
             {if $setting=="profilePhoto"}
-                <form id="profileForm" action="editProfile/{$profile->name}/owner" method="post" class="editProfilePhoto" enctype="multipart/form-data">   
+                <form id="profileForm" action="editProfile/{$profile->name}/owner/" method="post" class="editProfilePhoto" enctype="multipart/form-data">   
                     <fieldset id="userPhoto" for="userPhoto"><legend>Profile photo</legend>
                         <input type="file" name="profilePhoto">
                         <a href="account/{$profile->name}/settings/profilePhoto/delete/">Delete</a>
@@ -37,7 +37,7 @@
                 </form> 
             {else}
                 {if $setting=="security"}
-                    <form id="profileForm" action="editProfile/{$profile->name}/owner" method="post" class="editProfileSecurity">
+                    <form id="profileForm" action="editProfile/{$profile->name}/owner/" method="post" class="editProfileSecurity">
                         <fieldset id="password" for="password"><legend>Old password</legend>
                             <input type="password" name="password" required> 
                         </fieldset> 
@@ -50,7 +50,7 @@
                     </form>
                 {else}
                     {if $setting=="delete"}
-                    <form id="profileForm" action="deleteProfile/{$profile->name}/owner" method="post" class="editProfileDelete">
+                    <form id="profileForm" action="deleteProfile/{$profile->name}/owner/" method="post" class="editProfileDelete">
                         <fieldset id="password" for="password"><legend>Enter your password</legend>
                             <input type="password" name="password" required> 
                         </fieldset>                 

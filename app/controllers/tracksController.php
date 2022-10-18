@@ -1,28 +1,17 @@
 <?php
-require_once './app/models/tracksModel.php';
-require_once './app/models/genresModel.php';
-require_once './app/views/tracksView.php';
+require_once './app/controllers/appController.php';
 
-class tracksController {
-    private $model;
-    private $genresModel;
-    private $view;
-
-    public function __construct() {
-        $this->model = new tracksModel();
-        $this->genresModel = new genresModel();
-        $this->view = new tracksView();
-    }
+class tracksController extends appController {
 
     public function printTracks() {
-        $tracks = $this->model->getTracks();
-        $this->view->showTracks($tracks);
+        $tracks = $this->tracksModel->getTracks();
+        $this->tracksView->showTracks($tracks);
     }
 
     public function printUploadSection() {
         if ($_SESSION["rol"]!=3) {
             $genres = $this->genresModel->getGenres();
-            $this->view->showUploadSection($genres);
+            $this->tracksView->showUploadSection($genres);
         } else {
             header("location:".BASE_URL."login/");
         }        
@@ -40,13 +29,13 @@ class tracksController {
                     $photo = $_FILES["trackPhoto"]["tmp_name"];   
                     $photo_dir = "./images/tracks_photos/".uniqid("", true).".".strtolower(pathinfo($_FILES['trackPhoto']['name'], PATHINFO_EXTENSION));
                     
-                    $this->model->uploadFile($user_id, $trackName, $trackGenre, $trackDate, $photo, $photo_dir);
+                    $this->tracksModel->uploadFile($user_id, $trackName, $trackGenre, $trackDate, $photo, $photo_dir);
     
                 } else {
                     $error = 'Sorry, only JPG, JPEG, PNG files are allowed to upload.';
                 }             
             } else {
-                $this->model->uploadFile($user_id, $trackName, $trackGenre, $trackDate);
+                $this->tracksModel->uploadFile($user_id, $trackName, $trackGenre, $trackDate);
             }
             header("Location:".BASE_URL."about/".$_SESSION["name"]."/");
         } else {
@@ -57,10 +46,10 @@ class tracksController {
     public function deleteFile($trackID) {
         session_start();
         if (isset($_SESSION["loggedin"])) {
-            $track = $this->model->getFile($trackID);
+            $track = $this->tracksModel->getFile($trackID);
 
             if ($_SESSION["user_id"]==$track->user_id || ($_SESSION["rol"]==0 || $_SESSION["rol"]==1)){
-                $this->model->deleteFile($trackID);
+                $this->tracksModel->deleteFile($trackID);
                 header("location:".$_SERVER['HTTP_REFERER']);
             } else {
                 header("Location:".BASE_URL);
@@ -73,13 +62,13 @@ class tracksController {
     public function editFile($trackID) {
         session_start();
         if (isset($_SESSION["loggedin"]) && isset($_POST["editFile"])) {
-            $track = $this->model->getFile($trackID);
+            $track = $this->tracksModel->getFile($trackID);
             if ($_SESSION["user_id"]==$track->user_id){
                 $trackName = $_POST["name"];
                 $trackGenre = $_POST["genre"];
                 $trackDate = $_POST["date"];
 
-                $this->model->editFile($trackID, $trackName, $trackGenre, $trackDate);
+                $this->tracksModel->editFile($trackID, $trackName, $trackGenre, $trackDate);
                 
                 header("location:".$_SERVER['HTTP_REFERER']);
             } else {
@@ -92,11 +81,11 @@ class tracksController {
 
     public function printTracksByGenre($filter) {
         $genres = $this->genresModel->getGenres();
-        $tracks = $this->model->getTracksBy($filter);
+        $tracks = $this->tracksModel->getTracksBy($filter);
         if ($tracks) {
-            $this->view->showTracks($tracks, $genres);
+            $this->tracksView->showTracks($tracks, $genres);
         } else {
-            $this->view->showTracksErr($filter);
+            $this->tracksView->showTracksErr($filter);
         }        
     }
 }
